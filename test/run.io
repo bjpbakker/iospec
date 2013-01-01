@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 collectTests := method(dir,
   dir recursiveFilesOfTypes(list("_test.io"))
 )
