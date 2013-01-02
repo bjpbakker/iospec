@@ -9,14 +9,14 @@ assert("Spec => spec can pass",
   result := Spec that("truth", "is true") do (
     true
   )
-  result isPassed == true
+  result is_passed == true
 )
 
 assert("Spec => spec can fail",
   result := Spec that("spec", "fails") do (
     AssertionError raise("false")
   )
-  result isPassed == false
+  result is_passed == false
 )
 
 assert("Spec => failed spec result includes cause",
@@ -30,6 +30,6 @@ assert("Spec => spec executes on subject",
   result := Spec that("subject", "is not empty") do (
     isEmpty == false
   )
-  if (result cause, result cause isPassed, true)
+  if (result cause, result cause is_passed, true)
 )
 

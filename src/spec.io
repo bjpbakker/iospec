@@ -21,5 +21,5 @@ SpecResult of := method(exception,
   result
 )
 SpecResult cause := method(self __exception)
-SpecResult isPassed := method(self __exception == nil)
+SpecResult is_passed := method(self __exception == nil)
 
