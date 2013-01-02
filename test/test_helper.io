@@ -1,3 +1,4 @@
 doRelativeFile("../src/iospec.io")
-doRelativeFile("assert.io")
+doRelativeFile("helpers/assert.io")
+doRelativeFile("helpers/reports.io")
 

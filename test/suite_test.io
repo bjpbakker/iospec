@@ -1,5 +1,4 @@
 doRelativeFile("test_helper.io")
-doRelativeFile("recording_report.io")
 
 assert("Suite => defines specs on subject", 
   Suite describe("subject")
