@@ -1,5 +1,10 @@
 doRelativeFile("test_helper.io")
 
+assert("Spec => has a description",
+  spec := Spec that("subject", "has some feature")
+  spec description == "has some feature"
+)
+
 assert("Spec => spec can pass",
   result := Spec that("truth", "is true") do (
     true

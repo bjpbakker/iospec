@@ -1,15 +1,15 @@
 Spec ::= Object clone
 Spec that ::= method(subject, description,
   spec := self clone
-  spec _subject := subject
-  spec _description := description
+  spec subject := subject
+  spec description := description
   spec
 )
 
 Spec do ::= method(
   SpecResult of (
     try (
-      _subject doMessage(call message argAt(0))
+      subject doMessage(call message argAt(0))
     )
   )
 )
