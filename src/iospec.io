@@ -4,3 +4,6 @@ doRelativeFile("reports.io")
 doRelativeFile("matchers.io")
 doRelativeFile("dsl.io")
 
+IoSpec := Object clone
+IoSpec report := nil
+

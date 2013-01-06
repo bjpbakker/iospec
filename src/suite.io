@@ -9,6 +9,7 @@ Suite describe := method(subject,
 
 Suite report_to := method(report,
   self __report := report
+  self
 )
 
 Suite do := method(

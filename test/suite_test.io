@@ -13,6 +13,11 @@ assert("Suite => runs a spec",
   run subject == "subject"
 )
 
+assert("Suite => report_to returns self",
+  suite := Suite describe("report_to")
+  suite report_to(RecordingReport clone) == suite
+)
+
 assert("Suite => reports passed spec", 
   report := RecordingReport clone
   Suite describe("Suite reporting") do (

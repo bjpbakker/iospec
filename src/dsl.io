@@ -1,3 +1,7 @@
+Object describe := method(subject,
+  Suite describe(subject) report_to(IoSpec report)
+)
+
 Object should := method(
   match_message := call message next
   call message setNext(nil)
