@@ -1,4 +1,4 @@
-AssertionError ::= Exception clone
+AssertionError := Exception clone
 
 assert := method(synopsis,
   result := call target doMessage(call message argAt(1))

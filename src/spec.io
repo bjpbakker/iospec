@@ -1,12 +1,12 @@
-Spec ::= Object clone
-Spec that ::= method(subject, description,
+Spec := Object clone
+Spec that := method(subject, description,
   spec := self clone
   spec subject := subject
   spec description := description
   spec
 )
 
-Spec do ::= method(
+Spec do := method(
   SpecResult of (
     try (
       subject doMessage(call message argAt(0))
@@ -14,7 +14,7 @@ Spec do ::= method(
   )
 )
 
-SpecResult ::= Object clone
+SpecResult := Object clone
 SpecResult of := method(exception,
   result := SpecResult clone
   result __exception := exception

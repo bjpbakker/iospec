@@ -1,6 +1,6 @@
 ExpectationNotMetError := Exception clone
 
-OperatorMatcher ::= Object clone
+OperatorMatcher := Object clone
 OperatorMatcher matches := method(operator_msg,
   result_of_msg := actual doMessage(operator_msg)
   if (result_of_msg,

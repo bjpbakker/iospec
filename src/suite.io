@@ -1,4 +1,4 @@
-Suite ::= Object clone
+Suite := Object clone
 
 Suite describe := method(subject,
   group := Suite clone
@@ -22,7 +22,7 @@ Suite it := method(description,
   ReportingSpec wrap(spec, __report)
 )
 
-ReportingSpec ::= Object clone
+ReportingSpec := Object clone
 ReportingSpec wrap := method(spec, report,
   reporting_spec := ReportingSpec clone
   reporting_spec spec := spec

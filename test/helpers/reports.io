@@ -1,4 +1,4 @@
-RecordingReport ::= Object clone
+RecordingReport := Object clone
 
 RecordingReport clone := method(
   report := resend
