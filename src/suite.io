@@ -1,10 +1,10 @@
 Suite := Object clone
 
 Suite describe := method(subject,
-  group := Suite clone
-  group subject := subject
-  group __report := NullReport
-  group
+  suite := Suite clone
+  suite subject := subject
+  suite __report := NullReport
+  suite
 )
 
 Suite report_to := method(report,
