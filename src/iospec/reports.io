@@ -38,27 +38,27 @@ ColorDotReport end_context := method(
   failures foreach(spec, cause,
     number = number + 1
     failure := "  " .. number .. ") " .. spec .. "\n"
-    error := "     " .. cause type .. ": " .. cause error .. "\n"
     write("\n\n",
       "Failues:\n\n",
       failure,
-      red(error),
-      red(Pretty stack(cause coroutine callStack, "     ")),
+      red(Pretty indent(format_cause(cause), "     ")),
       "\n\n"
     )
   )
 )
+ColorDotReport format_cause := method(cause,
+  if (cause isKindOf(ExpectationNotMetError),
+    cause error,
+    Sequence with(cause type, ": ", cause error, "\n",
+      Pretty stack(cause coroutine callStack)))
+)
 
 Pretty := Object clone
 Pretty stack := method(callStack, prefix,
-  s := Sequence clone
-  callStack foreach(stack,
-    s appendSeq(
-      if(prefix, prefix, ""),
-      stack description,
-      "\n"
-    )
-  )
-  s
+  callStack map(description) map(asMutable) map(appendSeq("\n")) reduce(with)
+)
+Pretty indent := method(seq, prefix,
+  lines := seq split("\n")
+  lines map(prependSeq(prefix)) map(appendSeq("\n")) reduce(with)
 )
 
