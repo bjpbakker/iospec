@@ -1,16 +1,17 @@
-Spec := Object clone
-Spec that := method(subject, description,
-  spec := self clone
-  spec subject := subject
-  spec description := description
-  spec
-)
+Spec := Object clone do (
+  newSlot("subject")
+  newSlot("description")
 
-Spec do := method(
-  SpecResult clone setCause (
-    try (
-      ctx := ExecutionContext clone setSubject(subject)
-      ctx doMessage(call message argAt(0))
+  that := method(subject, description,
+    self clone setSubject(subject) setDescription(description)
+  )
+
+  do := method(
+    SpecResult clone setCause (
+      try (
+        ctx := ExecutionContext clone setSubject(subject)
+        ctx doMessage(call message argAt(0))
+      )
     )
   )
 )
