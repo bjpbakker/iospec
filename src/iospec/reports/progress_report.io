@@ -1,18 +1,18 @@
-ColorDotReport := Colorizer clone
-ColorDotReport clone := method(
+ProgressReport := Colorizer clone
+ProgressReport clone := method(
   resend
   self failures := Map clone
   self
 )
-ColorDotReport pass := method(
+ProgressReport pass := method(
   green(".") print
 )
-ColorDotReport fail := method(spec, cause,
+ProgressReport fail := method(spec, cause,
   failures atPut(spec, cause)
   red("F") print
 )
-ColorDotReport start_context := method(nil)
-ColorDotReport end_context := method(
+ProgressReport start_context := method(nil)
+ProgressReport end_context := method(
   number := 0
   failures foreach(spec, cause,
     number = number + 1
@@ -25,7 +25,7 @@ ColorDotReport end_context := method(
     )
   )
 )
-ColorDotReport format_cause := method(cause,
+ProgressReport format_cause := method(cause,
   if (cause isKindOf(ExpectationNotMetError),
     cause error,
     Sequence with(cause type, ": ", cause error, "\n",
