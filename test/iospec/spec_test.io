@@ -14,7 +14,7 @@ assert("Spec => spec can pass",
   result := Spec that("truth", "is true") do (
     true
   )
-  result map_passed(block(true))
+  result raise_or(true)
 )
 
 assert("Spec => spec can fail",

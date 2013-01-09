@@ -1,3 +1,4 @@
+Pending := Exception clone
 Spec := Object clone do (
   newSlot("subject")
   newSlot("description")
@@ -9,20 +10,17 @@ Spec := Object clone do (
   do := method(
     SpecResult clone setCause (
       try (
-        ctx := ExecutionContext clone setSubject(subject)
-        ctx doMessage(call message argAt(0))
+        execution_context(subject) doMessage(call message argAt(0))
       )
     )
   )
-)
 
-Pending := Exception clone
-ExecutionContext := Object clone do (
-  newSlot("subject")
-
-  pending := method(Pending raise)
-  forward := method(
-    subject doMessage(thisMessage)
+  execution_context := method(subject,
+    ctx := subject clone do (
+      newSlot("subject")
+      pending := method(Pending raise)
+    )
+    ctx setSubject(ctx)
   )
 )
 

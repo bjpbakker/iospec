@@ -13,6 +13,21 @@ assert("Suite => runs a spec",
   run subject == "subject"
 )
 
+assert("Suite => new subject per spec",
+  run := Object clone do (
+    newSlot("size")
+  )
+  Suite describe(list) do (
+    it ("adds a number") do (
+      append(1)
+    )
+    it ("is empty") do (
+      run setSize(size)
+    )
+  )
+  run size == 0
+)
+
 assert("Suite => report_to returns self",
   suite := Suite describe("report_to")
   suite report_to(RecordingReport clone) == suite
