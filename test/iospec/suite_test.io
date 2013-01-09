@@ -8,7 +8,7 @@ assert("Suite => runs a spec",
   run := Object clone
   run subject := nil
   Suite describe("subject") do (
-    it ("runs spec on subject") do ( run subject := thisContext )
+    it ("runs spec on subject") do ( run subject := subject )
   )
   run subject == "subject"
 )

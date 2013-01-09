@@ -7,19 +7,31 @@ Spec that := method(subject, description,
 )
 
 Spec do := method(
-  SpecResult of (
+  SpecResult clone setCause (
     try (
-      subject doMessage(call message argAt(0))
+      ctx := ExecutionContext clone setSubject(subject)
+      ctx doMessage(call message argAt(0))
     )
   )
 )
 
-SpecResult := Object clone
-SpecResult of := method(exception,
-  result := SpecResult clone
-  result __exception := exception
-  result
+Pending := Exception clone
+ExecutionContext := Object clone do (
+  newSlot("subject")
+
+  pending := method(nil)
+  forward := method(
+    subject doMessage(thisMessage)
+  )
 )
-SpecResult cause := method(self __exception)
-SpecResult is_passed := method(self __exception == nil)
+
+SpecResult := Object clone do (
+  newSlot("cause")
+
+  is_passed := method(
+    (cause == nil) or cause isKindOf(Pending)
+  )
+
+  is_pending := method(true)
+)
 
