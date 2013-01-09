@@ -54,6 +54,18 @@ assert("Suite => reports cause with failed spec",
   report failed_specs values at(0) isKindOf(AssertionError)
 )
 
+assert("Suite => reports pending spec",
+  report := RecordingReport clone
+  Suite describe("Suite reporting") do (
+    report_to(report)
+
+    it ("reports pending spec") do (
+      pending
+    )
+  )
+  report pending_specs contains("reports pending spec")
+)
+
 assert("Suite => reports start of context",
   report := RecordingReport clone
   spec_group := Suite describe("Suite reporting")

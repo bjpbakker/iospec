@@ -35,6 +35,9 @@ ReportingSpec do := method(
   spec_result map_passed(
     block(report pass(spec description))
   )
+  spec_result map_pending(
+    block(report pending(spec description))
+  )
   spec_result map_failed(
     block(cause, report fail(spec description, cause))
   )
