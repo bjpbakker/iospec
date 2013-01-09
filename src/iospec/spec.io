@@ -19,7 +19,7 @@ Pending := Exception clone
 ExecutionContext := Object clone do (
   newSlot("subject")
 
-  pending := method(nil)
+  pending := method(Pending raise)
   forward := method(
     subject doMessage(thisMessage)
   )
@@ -28,10 +28,19 @@ ExecutionContext := Object clone do (
 SpecResult := Object clone do (
   newSlot("cause")
 
-  is_passed := method(
-    (cause == nil) or cause isKindOf(Pending)
+  map_passed := method(lambda,
+    if(cause == nil,
+      lambda call)
   )
 
-  is_pending := method(true)
+  map_failed := method(lambda,
+    if (cause != nil and cause isKindOf(Pending) not,
+      lambda call(cause))
+  )
+
+  map_pending := method(lambda,
+    if (cause isKindOf(Pending),
+      lambda call)
+  )
 )
 

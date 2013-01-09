@@ -32,9 +32,11 @@ ReportingSpec wrap := method(spec, report,
 )
 ReportingSpec do := method(
   spec_result := call delegateTo(spec)
-  if (spec_result is_passed,
-    report pass(spec description),
-    report fail(spec description, spec_result cause)
+  spec_result map_passed(
+    block(report pass(spec description))
+  )
+  spec_result map_failed(
+    block(cause, report fail(spec description, cause))
   )
 )
 

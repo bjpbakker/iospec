@@ -1,7 +1,8 @@
 doRelativeFile("test_helper.io")
 
 SpecResult raise_or := method(value,
-  if (is_passed, value, cause pass)
+  result map_failed(block(cause, cause pass))
+  result map_passed(block(value))
 )
 
 assert("Spec => has a description",
@@ -13,14 +14,14 @@ assert("Spec => spec can pass",
   result := Spec that("truth", "is true") do (
     true
   )
-  result is_passed == true
+  result map_passed(block(true))
 )
 
 assert("Spec => spec can fail",
   result := Spec that("spec", "fails") do (
     AssertionError raise("false")
   )
-  result is_passed == false
+  result map_failed(block(true))
 )
 
 assert("Spec => failed spec result includes cause",
@@ -41,6 +42,6 @@ assert("Spec => can be pending",
   result := Spec that("subject", "has pending feature") do (
     pending
   )
-  result is_pending
+  result map_pending(block(true))
 )
 
