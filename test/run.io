@@ -5,5 +5,7 @@ collectTests := method(dir,
 )
 
 workingDir := Directory with(Directory currentWorkingDirectory)
-collectTests(workingDir) foreach (file, doFile(file path))
+collectTests(workingDir) foreach (file,
+  doFile(file path)
+)
 

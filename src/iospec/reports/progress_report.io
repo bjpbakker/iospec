@@ -1,7 +1,6 @@
 ProgressReport := Colorizer clone do (
   newSlot("pending_specs", list)
   newSlot("failing_specs", Map clone)
-
   newSlot("context")
 
   pass := method(
@@ -61,3 +60,4 @@ ProgressReport := Colorizer clone do (
         Pretty stack(cause coroutine callStack)))
   )
 )
+

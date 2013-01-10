@@ -7,6 +7,8 @@ doRelativeFile("iospec/reports/null_report.io")
 doRelativeFile("iospec/reports/progress_report.io")
 doRelativeFile("iospec/dsl.io")
 
-IoSpec := Object clone
-IoSpec report := nil
+IoSpec := Object clone do (
+  newSlot("report")
+)
+IoSpec clone := IoSpec
 

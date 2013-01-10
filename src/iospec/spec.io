@@ -16,7 +16,7 @@ Spec := Object clone do (
   )
 
   execution_context := method(subject,
-    ctx := subject clone do (
+    ctx := subject do (
       newSlot("subject")
       pending := method(Pending raise)
     )

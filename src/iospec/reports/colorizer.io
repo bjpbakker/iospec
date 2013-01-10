@@ -1,19 +1,27 @@
-Colors := Object clone
-Colors clone := method(self)
-Colors esc := method(27 asCharacter)
-Colors normal := method(esc .. "[0;m")
-Colors red := method(esc .. "[0;31m")
-Colors green := method(esc .. "[0;32m")
-Colors yellow := method(esc .. "[0;33m")
+Colors := Object clone do (
+  esc := 27 asCharacter
+  normal := esc .. "[0;m"
+  red := esc .. "[0;31m"
+  green := esc .. "[0;32m"
+  yellow := esc .. "[0;33m"
+)
+Colors clone := Colors
 
-Colorizer := Object clone
-Colorizer green := method(text,
-  Colors green .. text .. Colors normal
-)
-Colorizer red := method(text,
-  Colors red .. text .. Colors normal
-)
-Colorizer yellow := method(text,
-  Colors yellow .. text .. Colors normal
+Colorizer := Object clone do (
+  green := method(text,
+    colorize(text, Colors green)
+  )
+
+  red := method(text,
+    colorize(text, Colors red)
+  )
+
+  yellow := method(text,
+    colorize(text, Colors yellow)
+  )
+
+  colorize := method(text, color,
+    color .. text .. Colors normal
+  )
 )
 

@@ -3,6 +3,7 @@ doRelativeFile("test_helper.io")
 assert("describe => describes a subject",
   describe("subject") type == Suite type
 )
+
 assert("describe => reports to configured report",
   IoSpec report := CountingReport clone
   describe("IoSpec report") do (
@@ -14,9 +15,11 @@ assert("describe => reports to configured report",
 assert("should => handles possitive expectation",
   "text" should == "text"
 )
+
 assert("should => fails when expectation not met",
-  try (
+  failure := try (
     "text" should == "fail"
-  ) != nil
+  )
+  failure != nil
 )
 
