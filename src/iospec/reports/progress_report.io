@@ -29,6 +29,7 @@ ProgressReport := Colorizer clone do (
   end_context := method(
     if (pending_specs size > 0, report_pending)
     if (failing_specs size > 0, report_failures)
+    writeln
   )
 
   report_pending := method(
