@@ -10,12 +10,12 @@ Spec := Object clone do (
   do := method(
     SpecResult clone setCause (
       try (
-        execution_context(subject) doMessage(call message argAt(0))
+        executionContext(subject) doMessage(call message argAt(0))
       )
     )
   )
 
-  execution_context := method(subject,
+  executionContext := method(subject,
     ctx := subject do (
       newSlot("subject")
       pending := method(Pending raise)
@@ -27,17 +27,17 @@ Spec := Object clone do (
 SpecResult := Object clone do (
   newSlot("cause")
 
-  map_passed := method(lambda,
+  mapPassed := method(lambda,
     if(cause == nil,
       lambda call)
   )
 
-  map_failed := method(lambda,
+  mapFailed := method(lambda,
     if (cause != nil and cause isKindOf(Pending) not,
       lambda call(cause))
   )
 
-  map_pending := method(lambda,
+  mapPending := method(lambda,
     if (cause isKindOf(Pending),
       lambda call)
   )

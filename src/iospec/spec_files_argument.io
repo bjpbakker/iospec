@@ -4,29 +4,29 @@ SpecFilesArgument := Object clone do (
 
   with := method(arg,
     SpecFilesArgument clone
-      setRoot(determine_root(arg))
-      setFnpattern(determine_fnpattern(arg))
+      setRoot(determineRoot(arg))
+      setFnpattern(determineFnpattern(arg))
   )
 
-  determine_fnpattern := method(arg,
-    if (qualifies_as_root_dir(arg), default_fnpattern, parse_fnpattern(arg))
+  determineFnpattern := method(arg,
+    if (qualifiesAsRootDir(arg), defaultFnpattern, parseFnpattern(arg))
   )
 
-  default_fnpattern := "*_spec.io"
+  defaultFnpattern := "*_spec.io"
 
-  parse_fnpattern := method(arg,
+  parseFnpattern := method(arg,
     Directory with(arg) name
   )
 
-  determine_root := method(arg,
-    if (qualifies_as_root_dir(arg), arg, parse_root(arg))
+  determineRoot := method(arg,
+    if (qualifiesAsRootDir(arg), arg, parseRoot(arg))
   )
 
-  parse_root := method(arg,
+  parseRoot := method(arg,
     Directory with(arg) parentDirectory path
   )
 
-  qualifies_as_root_dir := method(path,
+  qualifiesAsRootDir := method(path,
     Directory with(path) exists
   )
 )

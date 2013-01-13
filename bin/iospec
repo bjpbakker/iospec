@@ -8,14 +8,14 @@ App := Object clone do (
       argv := list(".")
     )
 
-    specs := load_specs(argv map(arg, SpecFilesArgument with(arg)))
+    specs := loadSpecs(argv map(arg, SpecFilesArgument with(arg)))
     if (specs size == 0,
       error("No specs to run")
     )
     Runner clone setFiles(specs) run
   )
 
-  load_specs := method(args,
+  loadSpecs := method(args,
     args map(arg, FileCollector clone setDirectory(arg root) collect(arg fnpattern)) flatten
   )
 

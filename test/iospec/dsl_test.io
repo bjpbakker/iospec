@@ -9,7 +9,7 @@ assert("describe => reports to configured report",
   describe("IoSpec report") do (
     it ("passes") do (nil)
   )
-  IoSpec report passed_specs == 1
+  IoSpec report passedSpecs == 1
 )
 
 assert("should => handles possitive expectation",

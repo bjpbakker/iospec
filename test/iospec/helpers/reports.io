@@ -1,56 +1,56 @@
 RecordingReport := Object clone do (
-  newSlot("started_contexts", list)
-  newSlot("ended_contexts", list)
-  newSlot("passed_specs", list)
-  newSlot("pending_specs", list)
-  newSlot("failed_specs", Map clone)
+  newSlot("startedContexts", list)
+  newSlot("endedContexts", list)
+  newSlot("passedSpecs", list)
+  newSlot("pendingSpecs", list)
+  newSlot("failedSpecs", Map clone)
 
-  start_context := method(context,
-    started_contexts append(context)
+  startContext := method(context,
+    startedContexts append(context)
   )
 
-  end_context := method(context,
-    ended_contexts append(context)
+  endContext := method(context,
+    endedContexts append(context)
   )
 
-  pass := method(spec_description,
-    passed_specs append(spec_description)
+  pass := method(spec,
+    passedSpecs append(spec)
   )
 
-  pending := method(spec_description,
-    pending_specs append(spec_description)
+  pending := method(spec,
+    pendingSpecs append(spec)
   )
 
-  fail := method(spec_description, cause,
-    failed_specs atPut(spec_description, cause)
+  fail := method(spec, cause,
+    failedSpecs atPut(spec, cause)
   )
 )
 
 CountingReport := Object clone do (
-  newSlot("started_contexts", 0)
-  newSlot("ended_contexts", 0)
-  newSlot("passed_specs", 0)
-  newSlot("pending_specs", 0)
-  newSlot("failed_specs", 0)
+  newSlot("startedContexts", 0)
+  newSlot("endedContexts", 0)
+  newSlot("passedSpecs", 0)
+  newSlot("pendingSpecs", 0)
+  newSlot("failedSpecs", 0)
 
-  start_context := method(
-    self started_contexts := started_contexts + 1
+  startContext := method(
+    self startedContexts := startedContexts + 1
   )
 
-  end_context := method(
-    self ended_contexts := ended_contexts + 1
+  endContext := method(
+    self endedContexts := endedContexts + 1
   )
 
   pass := method(
-    self passed_specs := passed_specs + 1
+    self passedSpecs := passedSpecs + 1
   )
 
   pending := method(
-    self pending_specs := pending_specs + 1
+    self pendingSpecs := pendingSpecs + 1
   )
 
   fail := method(
-    self failed_specs := failed_specs + 1
+    self failedSpecs := failedSpecs + 1
   )
 )
 

@@ -36,7 +36,7 @@ assert("Suite => reports passed spec",
   Suite describe("Suite reporting") setReport(report) do (
     it ("reports passed spec") do ( nil )
   )
-  report passed_specs contains("reports passed spec")
+  report passedSpecs contains("reports passed spec")
 )
 
 assert("Suite => reports failed spec",
@@ -46,7 +46,7 @@ assert("Suite => reports failed spec",
       AssertionError raise("failed spec")
     )
   )
-  report failed_specs hasKey("reports failed spec")
+  report failedSpecs hasKey("reports failed spec")
 )
 
 assert("Suite => reports cause with failed spec",
@@ -56,7 +56,7 @@ assert("Suite => reports cause with failed spec",
       AssertionError raise("cause")
     )
   )
-  report failed_specs values at(0) isKindOf(AssertionError)
+  report failedSpecs values at(0) isKindOf(AssertionError)
 )
 
 assert("Suite => reports pending spec",
@@ -64,18 +64,18 @@ assert("Suite => reports pending spec",
   Suite describe("Suite reporting") setReport(report) do (
     it ("reports pending spec") do ( pending )
   )
-  report pending_specs contains("reports pending spec")
+  report pendingSpecs contains("reports pending spec")
 )
 
 assert("Suite => reports start of context",
   report := RecordingReport clone
   Suite describe("Suite reporting") setReport(report) do ( nil )
-  report started_contexts contains("Suite reporting")
+  report startedContexts contains("Suite reporting")
 )
 
 assert("Suite => reports end of context",
   report := RecordingReport clone
   Suite describe("Suite reporting") setReport(report) do ( nil )
-  report ended_contexts contains("Suite reporting")
+  report endedContexts contains("Suite reporting")
 )
 

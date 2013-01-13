@@ -10,9 +10,9 @@ Suite := Object clone do (
   )
 
   do := method(
-    report start_context(subject)
+    report startContext(subject)
     resend
-    report end_context(subject)
+    report endContext(subject)
   )
 
   it := method(description,
@@ -26,14 +26,14 @@ ReportingSpec := Object clone do (
   newSlot("report")
 
   do := method(
-    spec_result := call delegateTo(spec)
-    spec_result map_passed(block(
+    result := call delegateTo(spec)
+    result mapPassed(block(
       report pass(spec description)
     ))
-    spec_result map_pending(block(
+    result mapPending(block(
       report pending(spec description)
     ))
-    spec_result map_failed(block(
+    result mapFailed(block(
       cause, report fail(spec description, cause)
     ))
   )

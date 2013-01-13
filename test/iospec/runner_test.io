@@ -1,19 +1,19 @@
 doRelativeFile("test_helper.io")
 
 assert("Runner => executes a file", 
-  tmp := tmp_dir("/tmp/iospec")
+  tmp := tmpDir("/tmp/iospec")
   file := tmp file("text.io") open write(
     "File with(\"/tmp/iospec/data\") create"
   ) close
   Runner clone setFiles(list(file path)) run
-  has_run := File with("/tmp/iospec/data") exists
+  hasRun := File with("/tmp/iospec/data") exists
   tmp cleanup
-  has_run
+  hasRun
 )
 assert("Runner => throws if cannot do file",
-  tmp := tmp_dir("/tmp/iospec")
+  tmp := tmpDir("/tmp/iospec")
   file := tmp file("fail.io") open write(
-    "non_existing_call"
+    "nonExistingCall"
   ) close
   e := try (
     Runner clone setFiles(list(file path)) run

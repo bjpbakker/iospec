@@ -1,7 +1,7 @@
 doRelativeFile("test_helper.io")
 
 assert("FileCollector => collects Io files in directory",
-  tmp := tmp_dir("/tmp/iospec")
+  tmp := tmpDir("/tmp/iospec")
   file := tmp file("file.io")
   files := FileCollector clone setDirectory(tmp path) collect
   tmp cleanup
@@ -9,11 +9,11 @@ assert("FileCollector => collects Io files in directory",
 )
 
 assert("FileCollector => collects files by pattern",
-  tmp := tmp_dir("/tmp/iospec")
-  my_spec := tmp file("my_spec.io")
-  other_file := tmp file("other_file.io")
-  matching_files := FileCollector clone setDirectory(tmp path) collect("*_spec.io")
+  tmp := tmpDir("/tmp/iospec")
+  mySpec := tmp file("my_spec.io")
+  otherFile := tmp file("other_file.io")
+  matchingFiles := FileCollector clone setDirectory(tmp path) collect("*_spec.io")
   tmp cleanup
-  matching_files == list(my_spec path)
+  matchingFiles == list(mySpec path)
 )
 
