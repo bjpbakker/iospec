@@ -11,7 +11,7 @@ doRelativeFile("iospec/spec_files_argument.io")
 doRelativeFile("iospec/file_collector.io")
 
 IoSpec := Object clone do (
-  newSlot("report")
+  newSlot("report", ProgressReport clone)
 )
 IoSpec clone := IoSpec
 
