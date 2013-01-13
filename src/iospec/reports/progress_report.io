@@ -40,13 +40,13 @@ ProgressReport := Colorizer clone do (
   )
 
   report_failures := method(
+    write("\n\n",
+      "Failues:\n\n")
     number := 0
     failing_specs foreach(spec, cause,
       number = number + 1
       failure := "  " .. number .. ") " .. spec .. "\n"
-      write("\n\n",
-        "Failues:\n\n",
-        failure,
+      write(failure,
         red(Pretty indent(format_cause(cause), "     ")),
         "\n\n"
       )
