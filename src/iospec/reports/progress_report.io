@@ -27,6 +27,12 @@ ProgressReport := Colorizer clone do (
   )
 
   endContext := method(
+    setContext(nil)
+  )
+
+  start := method(nil)
+
+  startDump := method(
     if (pendingSpecs size > 0, reportPending)
     if (failingSpecs size > 0, reportFailures)
     writeln
