@@ -19,9 +19,9 @@ App := Object clone do (
     args map(arg, FileCollector clone setDirectory(arg root) collect(arg fnpattern)) flatten
   )
 
-  error := method(msg, optionalExitCode,
+  error := method(msg,
     writeln(msg)
-    System exit(if (optionalExitCode, optionalExitCode, 1))
+    System exit(1)
   )
 )
 
