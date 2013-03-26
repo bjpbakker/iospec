@@ -1,45 +1,52 @@
 Pending := Exception clone
 Spec := Object clone do (
-  newSlot("subject")
   newSlot("description")
-
-  that := method(subject, description,
-    self clone setSubject(subject) setDescription(description)
-  )
+  newSlot("exampleBlock")
 
   do := method(
-    SpecResult clone setCause (
-      try (
-        executionContext(subject) doMessage(call message argAt(0))
+    msg := call message argAt(0)
+    self setExampleBlock(block() setMessage(msg))
+    self
+  )
+
+  run := method(subject,
+    e := try ( evaluateOn(subject, self exampleBlock) )
+    makeResultFromPossibleEvaluationError(e)
+  )
+
+  makeResultFromPossibleEvaluationError := method(error,
+    if (error == nil,
+      PassedSpec clone,
+      if (error isKindOf(Pending),
+        PendingSpec clone,
+        FailedSpec clone setCause(error)
       )
     )
   )
 
-  executionContext := method(subject,
+  evaluateOn := method(subject, blk,
     ctx := subject do (
       newSlot("subject")
       pending := method(Pending raise)
-    )
-    ctx setSubject(ctx)
+    ) setSubject(subject)
+    ctx doMessage(blk message)
   )
 )
 
-SpecResult := Object clone do (
+PassedSpec := Object clone do (
+  mapPassed := method(lambda, lambda call)
+  mapFailed := nil
+  mapPending := nil
+)
+PendingSpec := Object clone do (
+  mapPending := method(lambda, lambda call)
+  mapPassed := nil
+  mapFailed := nil
+)
+FailedSpec := Object clone do (
   newSlot("cause")
-
-  mapPassed := method(lambda,
-    if(cause == nil,
-      lambda call)
-  )
-
-  mapFailed := method(lambda,
-    if (cause != nil and cause isKindOf(Pending) not,
-      lambda call(cause))
-  )
-
-  mapPending := method(lambda,
-    if (cause isKindOf(Pending),
-      lambda call)
-  )
+  mapFailed := method(lambda, lambda call(cause))
+  mapPassed := nil
+  mapPending := nil
 )
 

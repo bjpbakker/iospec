@@ -16,17 +16,18 @@ Suite := Object clone do (
   )
 
   it := method(description,
-    spec := Spec clone setSubject(subject clone) setDescription(description)
-    ReportingSpec clone setSpec(spec) setReport(report)
+    spec := Spec clone setDescription(description)
+    ReportingSpec clone setSpec(spec) setSubject(subject clone) setReport(report)
   )
 )
 
 ReportingSpec := Object clone do (
   newSlot("spec")
+  newSlot("subject")
   newSlot("report")
 
   do := method(
-    result := call delegateTo(spec)
+    result := call delegateTo(spec) run(subject)
     result mapPassed(block(
       report pass(spec description)
     ))

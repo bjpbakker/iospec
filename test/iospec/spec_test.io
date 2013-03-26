@@ -1,47 +1,61 @@
 doRelativeFile("test_helper.io")
 
-SpecResult raiseOr := method(value,
+withSpec := method(description,
+  Spec clone setDescription(description)
+)
+
+raiseIfFailed := method(result,
   result mapFailed(block(cause, cause pass))
-  result mapPassed(block(value))
 )
 
-assert("Spec => has a description",
-  spec := Spec that("subject", "has some feature")
-  spec description == "has some feature"
+assertPassed := method(result,
+  raiseIfFailed(result)
+  result mapPassed(block(true))
 )
 
-assert("Spec => spec can pass",
-  result := Spec that("truth", "is true") do (
-    true
-  )
-  result raiseOr(true)
+assertPending := method(result,
+  raiseIfFailed(result)
+  result mapPending(block(true))
 )
 
-assert("Spec => spec can fail",
-  result := Spec that("spec", "fails") do (
-    AssertionError raise("false")
-  )
+assertFailed := method(result,
   result mapFailed(block(true))
 )
 
-assert("Spec => failed spec result includes cause",
-  result := Spec that("failing spec result", "includes cause") do (
-    AssertionError raise("cause")
-  )
-  result cause isKindOf(AssertionError)
+passingBlock := block(true)
+failingBlock := block(AssertionError raise("expected"))
+pendingBlock := block(pending)
+
+assert("Spec => has a description",
+  spec := Spec clone setDescription("has some feature")
+  spec description == "has some feature"
 )
 
-assert("Spec => spec executes on subject",
-  result := Spec that("subject", "is not empty") do (
-    isEmpty == false
-  )
-  result raiseOr(true)
+assert("Spec => can pass",
+  result := withSpec("passing spec") setExampleBlock(passingBlock) run("subject")
+  assertPassed(result)
 )
 
 assert("Spec => can be pending",
-  result := Spec that("subject", "has pending feature") do (
-    pending
-  )
-  result mapPending(block(true))
+  result := withSpec("pending spec") setExampleBlock(pendingBlock) run("subject")
+  assertPending(result)
+)
+
+assert("Spec => can fail",
+  result := withSpec("failing spec") setExampleBlock(failingBlock) run("subject")
+  assertFailed(result)
+)
+
+assert("Spec => failure result includes cause",
+  result := withSpec("failing spec") setExampleBlock(failingBlock) run("subject")
+  cause := result mapFailed(block(cause, cause))
+  cause isKindOf(AssertionError)
+)
+
+assert("Spec => runs on subject",
+  result := Spec clone setDescription("is not empty") setExampleBlock(block(
+    isEmpty == false
+  )) run("subject")
+  assertPassed(result)
 )
 
