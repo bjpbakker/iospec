@@ -16,7 +16,7 @@ Suite := Object clone do (
   )
 
   it := method(description,
-    spec := Spec setSubject(subject clone) setDescription(description)
+    spec := Spec clone setSubject(subject clone) setDescription(description)
     ReportingSpec clone setSpec(spec) setReport(report)
   )
 )
