@@ -1,10 +1,10 @@
 doRelativeFile("test_helper.io")
 
-assert("describe => describes a subject",
+assert("DSL::describe => describes a subject",
   describe("subject") type == Suite type
 )
 
-assert("describe => reports to configured report",
+assert("DSL::describe => reports to configured report",
   IoSpec report := CountingReport clone
   describe("IoSpec report") do (
     it ("passes") do (nil)
@@ -12,11 +12,11 @@ assert("describe => reports to configured report",
   IoSpec report passedSpecs == 1
 )
 
-assert("should => handles possitive expectation",
+assert("DSL::should => handles possitive expectation",
   "text" should == "text"
 )
 
-assert("should => fails when expectation not met",
+assert("DSL::should => fails when expectation not met",
   failure := try (
     "text" should == "fail"
   )
