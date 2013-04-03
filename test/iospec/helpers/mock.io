@@ -1,5 +1,7 @@
 Mock := Object clone do (
-  newSlot("receivedMessages", list)
+  init := method(
+    newSlot("receivedMessages", list)
+  )
 
   forward := method(
     message := call message

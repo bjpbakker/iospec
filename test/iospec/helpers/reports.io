@@ -1,9 +1,11 @@
 RecordingReport := Object clone do (
-  newSlot("startedContexts", list)
-  newSlot("endedContexts", list)
-  newSlot("passedSpecs", list)
-  newSlot("pendingSpecs", list)
-  newSlot("failedSpecs", Map clone)
+  init := method(
+    newSlot("startedContexts", list)
+    newSlot("endedContexts", list)
+    newSlot("passedSpecs", list)
+    newSlot("pendingSpecs", list)
+    newSlot("failedSpecs", Map clone)
+  )
 
   startContext := method(context,
     startedContexts append(context)
@@ -27,11 +29,13 @@ RecordingReport := Object clone do (
 )
 
 CountingReport := Object clone do (
-  newSlot("startedContexts", 0)
-  newSlot("endedContexts", 0)
-  newSlot("passedSpecs", 0)
-  newSlot("pendingSpecs", 0)
-  newSlot("failedSpecs", 0)
+  init := method(
+    newSlot("startedContexts", 0)
+    newSlot("endedContexts", 0)
+    newSlot("passedSpecs", 0)
+    newSlot("pendingSpecs", 0)
+    newSlot("failedSpecs", 0)
+  )
 
   startContext := method(
     self startedContexts := startedContexts + 1
