@@ -8,14 +8,15 @@ App := Object clone do (
       argv := list(".")
     )
 
-    specs := loadSpecs(argv map(arg, SpecFilesArgument with(arg)))
-    if (specs size == 0,
+    files := loadFiles(argv map(arg, SpecFilesArgument with(arg)))
+    if (files isEmpty,
       error("No specs to run")
     )
-    Runner clone setReport(IoSpec report) setFiles(specs) run
+    files foreach(file, Lobby doFile(file))
+    Runner clone setWorld(IoSpec world) setReport(IoSpec report) run
   )
 
-  loadSpecs := method(args,
+  loadFiles := method(args,
     args map(arg, FileCollector clone setDirectory(arg root) collect(arg fnpattern)) flatten
   )
 

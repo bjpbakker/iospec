@@ -1,41 +1,34 @@
 Suite := Object clone do (
-  newSlot("subject")
-  newSlot("report")
 
-  describe := method(subject,
-    suite := Suite clone
-    suite setSubject(subject)
-    suite setReport(NullReport)
-    suite
+  init := method(
+    newSlot("subject")
+    newSlot("specs", list())
+    newSlot("report", NullReport)
   )
 
-  do := method(
+  append := method(spec,
+    specs append(spec)
+    self
+  )
+
+  run := method(
     report startContext(subject)
-    resend
+    specs foreach(spec,
+      reportSpec(spec, spec run(subject clone))
+    )
     report endContext(subject)
   )
 
-  it := method(description,
-    spec := Spec clone setDescription(description)
-    ReportingSpec clone setSpec(spec) setSubject(subject clone) setReport(report)
-  )
-)
-
-ReportingSpec := Object clone do (
-  newSlot("spec")
-  newSlot("subject")
-  newSlot("report")
-
-  do := method(
-    result := call delegateTo(spec) run(subject)
+  reportSpec := method(spec, result,
     result mapPassed(block(
       report pass(spec description)
     ))
     result mapPending(block(
       report pending(spec description)
     ))
-    result mapFailed(block(
-      cause, report fail(spec description, cause)
+    result mapFailed(block(cause,
+      report fail(spec description, cause)
     ))
   )
 )
+

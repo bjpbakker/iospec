@@ -7,11 +7,13 @@ doRelativeFile("iospec/reports/null_report.io")
 doRelativeFile("iospec/reports/progress_report.io")
 doRelativeFile("iospec/dsl.io")
 doRelativeFile("iospec/runner.io")
+doRelativeFile("iospec/world.io")
 doRelativeFile("iospec/spec_files_argument.io")
 doRelativeFile("iospec/file_collector.io")
 
 IoSpec := Object clone do (
   newSlot("report", ProgressReport clone)
+  newSlot("world", World clone)
 )
 IoSpec clone := IoSpec
 

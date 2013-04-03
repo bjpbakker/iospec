@@ -1,10 +1,12 @@
 Runner := Object clone do (
-  newSlot("files")
+  newSlot("world")
   newSlot("report")
 
   run := method(
     report start
-    files foreach(file, Lobby doFile(file))
+    world suites foreach(suite,
+      suite run
+    )
     report startDump
   )
 )

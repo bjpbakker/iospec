@@ -1,5 +1,13 @@
 Object describe := method(subject,
-  Suite describe(subject) setReport(IoSpec report)
+  suite := Suite clone setSubject(subject) setReport(IoSpec report) do (
+    it := method(name,
+      spec := Spec clone setDescription(name)
+      append(spec)
+      spec
+    )
+  )
+  IoSpec world register(suite)
+  suite
 )
 
 Object should := method(
