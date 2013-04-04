@@ -21,13 +21,13 @@ Suite := Object clone do (
 
   reportSpec := method(spec, result,
     result ifPassed(block(
-      report pass(spec description)
+      report pass(spec name)
     ))
     result ifPending(block(
-      report pending(spec description)
+      report pending(spec name)
     ))
     result ifFailed(block(cause,
-      report fail(spec description, cause)
+      report fail(spec name, cause)
     ))
   )
 )

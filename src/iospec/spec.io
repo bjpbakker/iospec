@@ -1,6 +1,6 @@
 Pending := Exception clone
 Spec := Object clone do (
-  newSlot("description")
+  newSlot("name")
   newSlot("exampleBlock")
 
   do := method(

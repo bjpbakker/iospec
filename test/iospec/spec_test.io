@@ -1,7 +1,7 @@
 doRelativeFile("test_helper.io")
 
-withSpec := method(description,
-  Spec clone setDescription(description)
+withSpec := method(name,
+  Spec clone setName(name)
 )
 
 raiseIfFailed := method(result,
@@ -26,9 +26,9 @@ passingBlock := block(true)
 failingBlock := block(AssertionError raise("expected"))
 pendingBlock := block(pending)
 
-assert("Spec => has a description",
-  spec := Spec clone setDescription("has some feature")
-  spec description == "has some feature"
+assert("Spec => has a name",
+  spec := Spec clone setName("has some feature")
+  spec name == "has some feature"
 )
 
 assert("Spec => can pass",
@@ -53,7 +53,7 @@ assert("Spec => failure result includes cause",
 )
 
 assert("Spec => runs on subject",
-  result := Spec clone setDescription("is not empty") setExampleBlock(block(
+  result := Spec clone setName("is not empty") setExampleBlock(block(
     isEmpty == false
   )) run("subject")
   assertPassed(result)

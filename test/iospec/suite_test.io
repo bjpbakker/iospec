@@ -1,6 +1,6 @@
 doRelativeFile("test_helper.io")
 
-DummySpec := Spec clone setDescription("any") do ( true )
+DummySpec := Spec clone setName("any") do ( true )
 
 Tracker := Object clone do (
   count ::= 0
@@ -10,7 +10,7 @@ Tracker := Object clone do (
 assert("Suite => runs a spec",
   tracker := Tracker clone
   Suite clone setSubject("suite") append(
-    Spec clone setDescription("run this spec") setExampleBlock(block(
+    Spec clone setName("run this spec") setExampleBlock(block(
       tracker inc
     ))
   ) run
@@ -20,7 +20,7 @@ assert("Suite => runs a spec",
 assert("Suite => passes subject to spec run",
   subjectTracker := Object clone do ( newSlot("subject") )
   Suite clone setSubject("pass subject") append(
-    Spec clone setDescription("track subject") setExampleBlock(block(
+    Spec clone setName("track subject") setExampleBlock(block(
       subjectTracker setSubject(subject)
     ))
   ) run
@@ -30,7 +30,7 @@ assert("Suite => passes subject to spec run",
 assert("Suite => clone of subject per spec",
   tracker := list
   Suite clone setSubject(tracker) append(
-    Spec clone setDescription("add data to clone of list") setExampleBlock(block(
+    Spec clone setName("add data to clone of list") setExampleBlock(block(
       subject append("ignored")
     ))
   ) run
@@ -40,7 +40,7 @@ assert("Suite => clone of subject per spec",
 assert("Suite => reports passed spec", 
   report := RecordingReport clone
   Suite clone setSubject("suite") setReport(report) append(
-    Spec clone setDescription("passed spec") setExampleBlock(block( nil ))
+    Spec clone setName("passed spec") setExampleBlock(block( nil ))
   ) run
   report passedSpecs == list("passed spec")
 )
@@ -48,7 +48,7 @@ assert("Suite => reports passed spec",
 assert("Suite => reports failed spec",
   report := RecordingReport clone
   Suite clone setSubject("reporting") setReport(report) append(
-    Spec clone setDescription("failed spec") setExampleBlock(block(
+    Spec clone setName("failed spec") setExampleBlock(block(
       AssertionError raise("expected")
     ))
   ) run
@@ -58,7 +58,7 @@ assert("Suite => reports failed spec",
 assert("Suite => reports cause with failed spec",
   report := RecordingReport clone
   Suite clone setSubject("reporting") setReport(report) append(
-    Spec clone setDescription("failed spec") setExampleBlock(block(
+    Spec clone setName("failed spec") setExampleBlock(block(
       AssertionError raise("failure cause")
     ))
   ) run
@@ -68,7 +68,7 @@ assert("Suite => reports cause with failed spec",
 assert("Suite => reports pending spec",
   report := RecordingReport clone
   Suite clone setSubject("reporting") setReport(report) append(
-    Spec clone setDescription("pending spec") setExampleBlock(block(
+    Spec clone setName("pending spec") setExampleBlock(block(
       pending
     ))
   ) run

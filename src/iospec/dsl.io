@@ -1,7 +1,7 @@
 Object describe := method(subject,
   suite := Suite clone setSubject(subject) setReport(IoSpec report) do (
     it := method(name,
-      spec := Spec clone setDescription(name)
+      spec := Spec clone setName(name)
       append(spec)
       spec
     )
