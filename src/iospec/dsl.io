@@ -1,13 +1,34 @@
 Object describe := method(subject,
-  suite := Suite clone setSubject(subject) setReport(IoSpec report) do (
-    it := method(name,
-      spec := Spec clone setName(name)
-      append(spec)
-      spec
+  DSL clone describe(subject)
+)
+
+DSL := Object clone do (
+  suite := nil
+
+  describe := method(subject,
+    self suite := Suite clone setSubject(subject) setReport(IoSpec report)
+    IoSpec world register(self suite)
+    self
+  )
+
+  do := method(
+    call resend
+    self suite
+  )
+
+  it := method(name,
+    SpecDescriber clone setSuite(self suite) setSpecName(name)
+  )
+
+  SpecDescriber := Object clone do (
+    newSlot("suite")
+    newSlot("specName")
+
+    do := method(
+      msg := call message argAt(0)
+      suite append(Spec clone setName(specName) setExampleBlock(block() setMessage(msg)))
     )
   )
-  IoSpec world register(suite)
-  suite
 )
 
 Object should := method(

@@ -3,12 +3,6 @@ Spec := Object clone do (
   newSlot("name")
   newSlot("exampleBlock")
 
-  do := method(
-    msg := call message argAt(0)
-    self setExampleBlock(block() setMessage(msg))
-    self
-  )
-
   run := method(subject,
     e := try ( evaluateOn(subject, self exampleBlock) )
     makeResultFromPossibleEvaluationError(e)

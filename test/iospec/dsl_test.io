@@ -1,14 +1,17 @@
 doRelativeFile("test_helper.io")
 
-assert("DSL::describe => describes a subject",
-  describe("subject") type == Suite type
-)
-
 assert("DSL::describe => registers suite in IoSpec world",
   world := Mock clone
   IoSpec setWorld(world)
   describe("subject")
   world hasReceived("register")
+)
+
+assert("DSL::it => appends spec to suite",
+  suite := describe("DSL") do (
+    it ("creates a spec") do (nil)
+  )
+  suite specs size == 1
 )
 
 assert("DSL::describe => reports to configured report",
