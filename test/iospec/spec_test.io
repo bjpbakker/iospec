@@ -5,21 +5,21 @@ withSpec := method(description,
 )
 
 raiseIfFailed := method(result,
-  result mapFailed(block(cause, cause pass))
+  result ifFailed(block(cause, cause pass))
 )
 
 assertPassed := method(result,
   raiseIfFailed(result)
-  result mapPassed(block(true))
+  result ifPassed(block(true))
 )
 
 assertPending := method(result,
   raiseIfFailed(result)
-  result mapPending(block(true))
+  result ifPending(block(true))
 )
 
 assertFailed := method(result,
-  result mapFailed(block(true))
+  result ifFailed(block(true))
 )
 
 passingBlock := block(true)
@@ -48,7 +48,7 @@ assert("Spec => can fail",
 
 assert("Spec => failure result includes cause",
   result := withSpec("failing spec") setExampleBlock(failingBlock) run("subject")
-  cause := result mapFailed(block(cause, cause))
+  cause := result ifFailed(block(cause, cause))
   cause isKindOf(AssertionError)
 )
 

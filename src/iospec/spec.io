@@ -34,19 +34,19 @@ Spec := Object clone do (
 )
 
 PassedSpec := Object clone do (
-  mapPassed := method(lambda, lambda call)
-  mapFailed := nil
-  mapPending := nil
+  ifPassed := method(lambda, lambda call)
+  ifFailed := nil
+  ifPending := nil
 )
 PendingSpec := Object clone do (
-  mapPending := method(lambda, lambda call)
-  mapPassed := nil
-  mapFailed := nil
+  ifPending := method(lambda, lambda call)
+  ifPassed := nil
+  ifFailed := nil
 )
 FailedSpec := Object clone do (
   newSlot("cause")
-  mapFailed := method(lambda, lambda call(cause))
-  mapPassed := nil
-  mapPending := nil
+  ifFailed := method(lambda, lambda call(cause))
+  ifPassed := nil
+  ifPending := nil
 )
 

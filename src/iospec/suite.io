@@ -20,13 +20,13 @@ Suite := Object clone do (
   )
 
   reportSpec := method(spec, result,
-    result mapPassed(block(
+    result ifPassed(block(
       report pass(spec description)
     ))
-    result mapPending(block(
+    result ifPending(block(
       report pending(spec description)
     ))
-    result mapFailed(block(cause,
+    result ifFailed(block(cause,
       report fail(spec description, cause)
     ))
   )
