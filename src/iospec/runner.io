@@ -3,11 +3,11 @@ Runner := Object clone do (
   newSlot("report")
 
   run := method(
-    report start
+    report startRun
     world suites foreach(suite,
       suite run
     )
-    report startDump
+    report dump
   )
 )
 

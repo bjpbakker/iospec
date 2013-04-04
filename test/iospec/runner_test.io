@@ -8,15 +8,15 @@ assert("Runner => runs suites from World",
   suite hasReceived("run")
 )
 
-assert("Runner => sends 'start' to report",
+assert("Runner => notifies report of starting run",
   report := Mock clone
   Runner clone setWorld(World clone) setReport(report) run
-  report hasReceived("start")
+  report hasReceived("startRun")
 )
 
-assert("Runner => starts dump report",
+assert("Runner => dumps report",
   report := Mock clone
   Runner clone setWorld(World clone) setReport(report) run
-  report hasReceived("startDump")
+  report hasReceived("dump")
 )
 
