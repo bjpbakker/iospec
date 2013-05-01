@@ -11,18 +11,18 @@ SpecFilesArgument := Object clone do (
   )
 
   determineFnpattern := method(arg,
-    if (qualifiesAsRootDir(arg), defaultFnpattern, parseFnpattern(arg))
-  )
-
-  parseFnpattern := method(arg,
-    Directory with(arg) name
+    if (qualifiesAsRootDir(arg), defaultFnpattern, fnpatternFrom(arg))
   )
 
   determineRoot := method(arg,
-    if (qualifiesAsRootDir(arg), arg, parseRoot(arg))
+    if (qualifiesAsRootDir(arg), arg, rootFrom(arg))
   )
 
-  parseRoot := method(arg,
+  fnpatternFrom := method(arg,
+    Directory with(arg) name
+  )
+
+  rootFrom := method(arg,
     Directory with(arg) parentDirectory path
   )
 
