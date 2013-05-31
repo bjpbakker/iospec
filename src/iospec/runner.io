@@ -6,10 +6,14 @@ Runner := Object clone do (
 
   run := method(
     report startRun
-    world suites foreach(suite,
-      suite run
-    )
+    specResults := world suites map(run)
     report dump
+    return RunResults clone setAllPassed(
+      specResults flatten select(result, result isFailed) isEmpty
+    )
   )
 )
 
+RunResults := Object clone do (
+  newSlot("allPassed")
+)
