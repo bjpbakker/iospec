@@ -10,10 +10,10 @@ Spec := Object clone do (
 
   makeResultFromPossibleEvaluationError := method(error,
     if (error == nil,
-      PassedSpec clone,
+      PassingSpec clone,
       if (error isKindOf(Pending),
         PendingSpec clone,
-        FailedSpec clone setCause(error)
+        FailingSpec clone setCause(error)
       )
     )
   )
@@ -27,7 +27,7 @@ Spec := Object clone do (
   )
 )
 
-PassedSpec := Object clone do (
+PassingSpec := Object clone do (
   ifPassed := method(lambda, lambda call)
   ifFailed := nil
   ifPending := nil
@@ -37,7 +37,7 @@ PendingSpec := Object clone do (
   ifPassed := nil
   ifFailed := nil
 )
-FailedSpec := Object clone do (
+FailingSpec := Object clone do (
   newSlot("cause")
   ifFailed := method(lambda, lambda call(cause))
   ifPassed := nil
