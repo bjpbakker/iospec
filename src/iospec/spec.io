@@ -28,19 +28,19 @@ Spec := Object clone do (
 )
 
 PassingSpec := Object clone do (
-  ifPassed := method(lambda, lambda call)
-  ifFailed := nil
-  ifPending := nil
+  isPassed := true
+  isFailed := nil
+  isPending := nil
 )
 PendingSpec := Object clone do (
-  ifPending := method(lambda, lambda call)
-  ifPassed := nil
-  ifFailed := nil
+  isPending := true
+  isPassed := nil
+  isFailed := nil
 )
 FailingSpec := Object clone do (
   newSlot("cause")
-  ifFailed := method(lambda, lambda call(cause))
-  ifPassed := nil
-  ifPending := nil
+  isFailed := true
+  isPassed := nil
+  isPending := nil
 )
 

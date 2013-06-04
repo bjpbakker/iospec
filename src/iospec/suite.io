@@ -13,22 +13,20 @@ Suite := Object clone do (
 
   run := method(
     report startContext(subject)
+    results := list
     specs foreach(spec,
-      reportSpec(spec, spec run(subject clone))
+      result := spec run(subject clone)
+      reportSpec(spec, result)
+      results append(result)
     )
     report endContext(subject)
+    results
   )
 
   reportSpec := method(spec, result,
-    result ifPassed(block(
-      report pass(spec name)
-    ))
-    result ifPending(block(
-      report pending(spec name)
-    ))
-    result ifFailed(block(cause,
-      report fail(spec name, cause)
-    ))
+    result isPassed and report pass(spec name)
+    result isPending and report pending(spec name)
+    result isFailed and report fail(spec name, result cause)
   )
 )
 
