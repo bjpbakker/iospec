@@ -20,3 +20,8 @@ assert("Stub => throws if function is not stubbed",
   e isKindOf(UnknownMessageError)
 )
 
+assert("Stub => allows chaining stub set up",
+  double := Stub clone stub("f", "chained-stub")
+  double f == "chained-stub"
+)
+

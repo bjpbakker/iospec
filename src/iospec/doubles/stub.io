@@ -11,6 +11,7 @@ Stub := Object clone do (
       stub := newStub(function)
       stubbed append(stub))
     stub answers append(answer)
+    self
   )
 
   newStub := method(function,
