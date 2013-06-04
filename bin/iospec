@@ -13,7 +13,8 @@ App := Object clone do (
       error("No specs to run")
     )
     files foreach(file, Lobby doFile(file))
-    Runner clone setWorld(IoSpec world) setReport(IoSpec report) run
+    result := Runner clone setWorld(IoSpec world) setReport(IoSpec report) run
+    result allPassed or error
   )
 
   loadFiles := method(args,
@@ -21,7 +22,7 @@ App := Object clone do (
   )
 
   error := method(msg,
-    writeln(msg)
+    msg and writeln(msg)
     System exit(1)
   )
 )
