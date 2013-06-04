@@ -2,9 +2,10 @@ doRelativeFile("test_helper.io")
 
 assert("DSL::describe => registers suite in IoSpec world",
   world := Mock clone
+  world shouldReceive("register")
   IoSpec setWorld(world)
   describe("subject")
-  world hasReceived("register")
+  world verify
 )
 
 assert("DSL::describe => sets subject on suite",

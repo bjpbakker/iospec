@@ -1,6 +1,8 @@
 Runner := Object clone do (
-  newSlot("world")
-  newSlot("report")
+  init := method(
+    newSlot("world")
+    newSlot("report")
+  )
 
   run := method(
     report startRun
