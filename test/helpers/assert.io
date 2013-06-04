@@ -8,7 +8,8 @@ assert := method(synopsis,
       AssertionError raise)
   )
   if (ex,
-    ex setError("[FAIL] " .. synopsis .. ": " .. ex error)
+    ex setError("[FAIL] " .. synopsis ..
+      " (" .. ex type .. ": " .. ex error .. ")")
     ex pass
   )
 )
