@@ -15,27 +15,27 @@ PrimeFactors := Object clone do (
 
 describe (PrimeFactors) do (
   it ("gets factors for 1") do (
-    PrimeFactors factorsFor(1) should == list()
+    subject factorsFor(1) should == list()
   )
 
   it ("gets factors for 2") do (
-    PrimeFactors factorsFor(2) should == list(2)
+    subject factorsFor(2) should == list(2)
   )
 
   it ("gets factors for 3") do (
-    PrimeFactors factorsFor(3) should == list(3)
+    subject factorsFor(3) should == list(3)
   )
 
   it ("gets factors for 4") do (
-    PrimeFactors factorsFor(4) should == list(2,2)
+    subject factorsFor(4) should == list(2,2)
   )
 
   it ("gets factors for 8") do (
-    PrimeFactors factorsFor(8) should == list(2,2,2)
+    subject factorsFor(8) should == list(2,2,2)
   )
 
   it ("gets factors for 9") do (
-    PrimeFactors factorsFor(9) should == list(3,3)
+    subject factorsFor(9) should == list(3,3)
   )
 )
 
