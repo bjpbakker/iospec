@@ -2,7 +2,8 @@ Coinchanger := Object clone do (
   denominations := list(100, 50, 25, 10, 5, 1)
 
   change := method(amount,
-    if (amount == 0, return list)
+    if (amount == 0,
+      return list)
     denomination := denominations detect(<= amount)
     list(denomination) appendSeq(change(amount - denomination))
   )

@@ -9,7 +9,7 @@ Runner := Object clone do (
     specResults := world suites map(run)
     report dump
     return RunResults clone setAllPassed(
-      specResults flatten select(result, result isFailed) isEmpty
+      specResults flatten select(isFailed) isEmpty
     )
   )
 )

@@ -5,6 +5,7 @@ World := Object clone do (
 
   register := method(suite,
     self suites append(suite)
+    self
   )
 )
 

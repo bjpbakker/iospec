@@ -45,7 +45,7 @@ Bowling := Object clone do (
 describe(Bowling) do (
   it ("scores 0 for all gutter game") do (
     20 repeat ( subject hit(0) )
-    score should == 0
+    subject score should == 0
   )
 
   it ("scores 20 for all ones") do (

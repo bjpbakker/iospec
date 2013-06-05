@@ -5,17 +5,7 @@ Spec := Object clone do (
 
   run := method(subject,
     e := try ( evaluateOn(subject, self exampleBlock) )
-    makeResultFromPossibleEvaluationError(e)
-  )
-
-  makeResultFromPossibleEvaluationError := method(error,
-    if (error == nil,
-      PassingSpec clone,
-      if (error isKindOf(Pending),
-        PendingSpec clone,
-        FailingSpec clone setCause(error)
-      )
-    )
+    resultFromPossibleEvaluationError(e)
   )
 
   evaluateOn := method(subject, blk,
@@ -24,6 +14,16 @@ Spec := Object clone do (
       pending := method(Pending raise)
     ) setSubject(subject)
     ctx doMessage(blk message)
+  )
+
+  resultFromPossibleEvaluationError := method(error,
+    if (error == nil,
+      PassingSpec clone,
+      if (error isKindOf(Pending),
+        PendingSpec clone,
+        FailingSpec clone setCause(error)
+      )
+    )
   )
 )
 

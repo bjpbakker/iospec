@@ -7,7 +7,8 @@ tmpDir := method(path,
       self remove
     )
   )
-  if (dir exists, dir cleanup)
+  if (dir exists,
+    dir cleanup)
   dir create
 )
 
