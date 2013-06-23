@@ -20,5 +20,6 @@ error and exit(error)
 
 write("\n",
   "Running IoSpec examples\n")
-System system("./bin/iospec examples/*_example.io")
+examplesResult := System system("./bin/iospec examples/*_example.io")
+System exit(examplesResult)
 

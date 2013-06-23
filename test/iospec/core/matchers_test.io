@@ -1,4 +1,4 @@
-doRelativeFile("test_helper.io")
+doRelativeFile("../test_helper.io")
 
 assert("OperatorMatcher => matches use == operator",
   m := OperatorMatcher clone

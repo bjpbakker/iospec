@@ -1,4 +1,4 @@
-doRelativeFile("test_helper.io")
+doRelativeFile("../test_helper.io")
 
 DummySpec := Spec clone setName("any") do ( true )
 

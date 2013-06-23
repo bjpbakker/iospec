@@ -1,6 +1,19 @@
 #!/usr/bin/env io
 
-doRelativeFile("../src/iospec.io")
+safeLoadIoSpec := method(
+  initializationError := try (
+    doRelativeFile("../src/iospec/iospec.io")
+  )
+  if (initializationError,
+    write("IoSpec cannot load. Please check your installation.\n",
+          "\n",
+          "Details of the initialization failure are printed below.\n")
+    initializationError showStack
+    System exit(1)
+  )
+)
+
+safeLoadIoSpec
 
 App := Object clone do (
   run := method(argv,

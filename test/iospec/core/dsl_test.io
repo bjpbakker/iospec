@@ -1,4 +1,4 @@
-doRelativeFile("test_helper.io")
+doRelativeFile("../test_helper.io")
 
 assert("DSL::describe => registers suite in IoSpec world",
   world := Mock clone
