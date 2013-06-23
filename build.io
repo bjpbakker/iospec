@@ -1,6 +1,11 @@
 #!/usr/bin/env io
 
-tests := method(dir,
+TestModuleNotFound := Exception clone
+
+testsFor := method(module,
+  dir := Directory with("./test/iospec") at(module)
+  if (dir not,
+    TestModuleNotFound raise(module))
   dir recursiveFilesOfTypes(list("_test.io"))
 )
 
@@ -9,14 +14,20 @@ exit := method(error,
   System exit(1)
 )
 
-write("Running IoSpec tests\n")
-workingDir := Directory with(Directory currentWorkingDirectory)
-error := try (
-  tests(workingDir directoryNamed("test")) foreach (file,
-    doFile(file path)
+modules := list("doubles", "core")
+modules foreach(module,
+  write("Testing IoSpec ", module asCapitalized, "\n")
+  error := try (
+    testsFor(module) foreach(file,
+      doFile(file path)
+    )
   )
+  if (error,
+    exit(error))
+  write("\n",
+        "tests for IoSpec module ", module asCapitalized, " were run successfully\n",
+        "\n")
 )
-error and exit(error)
 
 write("\n",
   "Running IoSpec examples\n")
