@@ -10,10 +10,12 @@ Mock := Object clone do (
 
   shouldReceive := method(function,
     toReceive append(function)
+    self
   )
 
   ignore := method(function,
     ignored append(function)
+    self
   )
 
   forward := method(
