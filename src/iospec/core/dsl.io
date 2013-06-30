@@ -32,8 +32,14 @@ DSL := Object clone do (
 )
 
 Object should := method(
-  matcher := call message next
-  call message setNext(nil)
+  extractMatcherFromBlock := method(chain,
+    matcher := chain next
+    lastOfMatcher := matcher lastBeforeEndOfLine
+    chain setNext(lastOfMatcher next)
+    lastOfMatcher setNext(nil)
+    matcher
+  )
+  matcher := extractMatcherFromBlock(call message)
   Should clone setContext(self) setMatcher(matcher) matches
 )
 
@@ -45,4 +51,3 @@ Should := Object clone do (
     OperatorMatcher clone setActual(context) matches(matcher)
   )
 )
-
