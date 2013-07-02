@@ -9,7 +9,7 @@ Spec := Object clone do (
   )
 
   evaluateOn := method(subject, blk,
-    ctx := subject do (
+    ctx := Object clone do (
       newSlot("subject")
       pending := method(Pending raise)
     ) setSubject(subject)

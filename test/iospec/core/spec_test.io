@@ -52,10 +52,9 @@ assert("Spec => failure result includes cause",
   cause isKindOf(AssertionError)
 )
 
-assert("Spec => runs on subject",
+assert("Spec => has accesss to subject",
   result := Spec clone setName("is not empty") setExampleBlock(block(
-    isEmpty == false
+    subject isEmpty == false
   )) run("subject")
   assertPassed(result)
 )
-
