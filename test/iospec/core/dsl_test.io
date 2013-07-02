@@ -46,3 +46,10 @@ assert("DSL::should => allows for sequential expectations that use scoped variab
     actual should == "actual"
   ) call
 )
+
+assert("DSL::should => can match against variable expectations",
+  block(
+    expected := "value"
+    "value" should == expected
+  ) call
+)

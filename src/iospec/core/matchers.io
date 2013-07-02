@@ -16,9 +16,16 @@ OperatorMatcher := Object clone do (
   )
 
   formatError := method(matcher,
+    expected := matcher arguments map(arg, describeArgument(arg)) join(" ")
     ctx := ErrorContext clone setOperator(matcher name)
-    ctx setExpected(matcher arguments join(" ")) setActual(actual)
+    ctx setExpected(expected) setActual(actual)
     "expected: #{expected}\n     got: #{actual} (using #{operator})" interpolate(ctx)
+  )
+
+  describeArgument := method(argument,
+      if (argument hasCachedResult,
+          argument cachedResult,
+          argument code)
   )
 
   ErrorContext := Object clone do (
@@ -27,4 +34,3 @@ OperatorMatcher := Object clone do (
     newSlot("actual")
   )
 )
-
