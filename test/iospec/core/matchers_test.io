@@ -30,3 +30,15 @@ assert("OperatorMatcher => reports cached result of expectation",
     cause error == "expected: two\n     got: one (using ==)",
     cause pass)
 )
+
+assert("OperatorMatcher => reports values as escaped sequences",
+  escape := method(s,
+    s asMutable escape
+  )
+  cause := try (
+    OperatorMatcher clone setActual("one\ntwo") matches(message(== "one\ntwo\n"))
+  )
+  if (cause isKindOf(ExpectationNotMetError),
+    cause error == ("expected: " .. escape("one\ntwo\n") .. "\n     got: " .. escape("one\ntwo") .. " (using ==)"),
+    cause pass)
+)

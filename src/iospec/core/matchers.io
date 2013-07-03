@@ -18,7 +18,7 @@ OperatorMatcher := Object clone do (
   formatError := method(matcher,
     expected := matcher arguments map(arg, describeArgument(arg)) join(" ")
     ctx := ErrorContext clone setOperator(matcher name)
-    ctx setExpected(expected) setActual(actual)
+    ctx setExpected(expected asString asMutable escape) setActual(actual asString asMutable escape)
     "expected: #{expected}\n     got: #{actual} (using #{operator})" interpolate(ctx)
   )
 
