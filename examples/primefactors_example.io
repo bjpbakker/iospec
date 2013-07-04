@@ -1,4 +1,3 @@
-OperatorTable addOperator("primes", 15)
 Number primes := method(
   n := self
   factors := list
