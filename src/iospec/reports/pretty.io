@@ -4,8 +4,9 @@ Pretty := Object clone do (
   )
 
   indent := method(seq, prefix,
-    lines := seq split("\n")
-    lines map(prependSeq(prefix)) map(appendSeq("\n")) reduce(with)
+    if (seq,
+      lines := if (seq, seq split("\n"), list)
+      lines map(prependSeq(prefix)) map(appendSeq("\n")) reduce(with))
   )
 )
 
