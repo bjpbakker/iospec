@@ -1,5 +1,3 @@
-doRelativeFile("../test_helper.io")
-
 assert("FileCollector => collects Io files in directory",
   tmp := tmpDir("/tmp/iospec")
   file := tmp file("file.io")

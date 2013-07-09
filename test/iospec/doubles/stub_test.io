@@ -1,5 +1,3 @@
-doRelativeFile("../test_helper.io")
-
 assert("Stub => returns stub result for function",
   double := Stub clone
   double stub("f", double)

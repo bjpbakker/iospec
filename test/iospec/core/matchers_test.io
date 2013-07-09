@@ -1,5 +1,3 @@
-doRelativeFile("../test_helper.io")
-
 assert("OperatorMatcher => matches use == operator",
   m := OperatorMatcher clone
   m actual := "text"

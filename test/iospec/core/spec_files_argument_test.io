@@ -1,5 +1,3 @@
-doRelativeFile("../test_helper.io")
-
 assert("SpecFilesArgument => fnpattern defaults to specs",
   SpecFilesArgument with("test") fnpattern == "*_spec.io"
 )

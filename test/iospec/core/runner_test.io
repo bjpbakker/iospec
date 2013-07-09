@@ -1,5 +1,3 @@
-doRelativeFile("../test_helper.io")
-
 passedSpec := Stub clone stub("isPassed", true) stub("isFailed", false)
 failedSpec := Stub clone stub("isPassed", false) stub("isFailed", true)
 

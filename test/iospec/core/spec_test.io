@@ -1,5 +1,3 @@
-doRelativeFile("../test_helper.io")
-
 withSpec := method(name,
   Spec clone setName(name)
 )

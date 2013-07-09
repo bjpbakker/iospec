@@ -1,5 +1,3 @@
-doRelativeFile("../test_helper.io")
-
 DummySpec := Spec clone setName("any") do ( true )
 
 Tracker := Object clone do (

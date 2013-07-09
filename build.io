@@ -1,5 +1,7 @@
 #!/usr/bin/env io
 
+doRelativeFile("test/iospec/test_helper.io")
+
 TestModuleNotFound := Exception clone
 
 testsFor := method(module,

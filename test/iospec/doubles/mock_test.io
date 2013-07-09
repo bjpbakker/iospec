@@ -1,5 +1,3 @@
-doRelativeFile("../test_helper.io")
-
 assert("Mock => verify expected and recieved message",
   mock := Mock clone
   mock shouldReceive("doSomething")
