@@ -49,7 +49,7 @@ assert("Suite => reports failed spec",
   report := RecordingReport clone
   Suite clone setSubject("reporting") setReport(report) append(
     Spec clone setName("failed spec") setExampleBlock(block(
-      AssertionError raise("expected")
+      Exception raise("spec that fails for asserting a failure")
     ))
   ) run
   report failedSpecs keys == list("failed spec")
@@ -59,10 +59,11 @@ assert("Suite => reports cause with failed spec",
   report := RecordingReport clone
   Suite clone setSubject("reporting") setReport(report) append(
     Spec clone setName("failed spec") setExampleBlock(block(
-      AssertionError raise("failure cause")
+      Exception raise("failure cause")
     ))
   ) run
-  report failedSpecs values at(0) isKindOf(AssertionError)
+  reportedException := report failedSpecs values at(0)
+  reportedException error == "failure cause"
 )
 
 assert("Suite => reports pending spec",
