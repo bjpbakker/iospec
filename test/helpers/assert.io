@@ -8,7 +8,9 @@ Test := Object clone do (
   )
 
   run := method(printer,
-    ex := try ( result := target doMessage(testMessage) )
+    ex := try (
+      result := block(target doMessage(testMessage)) call
+    )
     if (ex,
       printer onError(synopsis, ex),
       if (result == "*PENDING*",
