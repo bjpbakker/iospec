@@ -25,29 +25,3 @@ assert("DSL::describe => reports to configured report",
   ) run
   IoSpec report passedSpecs == 1
 )
-
-assert("DSL::should => gets true as expexctation is met",
-  "text" should == "text"
-)
-
-assert("DSL::should => throws as expectation is not met",
-  failure := try (
-    "text" should == "fail"
-  )
-  failure != nil
-)
-
-assert("DSL::should => allows for sequential expectations that use scoped variables",
-  block(
-    actual := "actual"
-    actual should == "actual"
-    actual should == "actual"
-  ) call
-)
-
-assert("DSL::should => can match against variable expectations",
-  block(
-    expected := "value"
-    "value" should == expected
-  ) call
-)

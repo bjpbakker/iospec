@@ -16,7 +16,7 @@ exit := method(error,
   System exit(1)
 )
 
-modules := list("doubles", "core")
+modules := list("doubles", "core", "matchers", "dsl")
 modules foreach(module,
   write("Testing IoSpec ", module asCapitalized, "\n")
   error := try (

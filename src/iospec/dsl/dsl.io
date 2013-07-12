@@ -30,24 +30,3 @@ DSL := Object clone do (
     )
   )
 )
-
-Object should := method(
-  extractMatcher := method(chain,
-    matcher := chain next
-    lastOfMatcher := matcher lastBeforeEndOfLine
-    chain setNext(lastOfMatcher next)
-    lastOfMatcher setNext(nil)
-    matcher
-  )
-  matcher := extractMatcher(call message) asMessageWithEvaluatedArgs(call sender)
-  Should clone setActual(self) setMatcher(matcher) matches
-)
-
-Should := Object clone do (
-  newSlot("actual")
-  newSlot("matcher")
-
-  matches := method(
-    OperatorMatcher clone setActual(actual) matches(matcher)
-  )
-)
