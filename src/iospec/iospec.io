@@ -19,13 +19,15 @@ doRelativeFile("dsl/should.io")
 doRelativeFile("reports/colorizer.io")
 doRelativeFile("reports/pretty.io")
 doRelativeFile("reports/null_report.io")
-doRelativeFile("reports/progress_report.io")
+doRelativeFile("reports/report.io")
+doRelativeFile("reports/formatters/base_formatter.io")
+doRelativeFile("reports/formatters/progress.io")
 
 doRelativeFile("doubles/mock.io")
 doRelativeFile("doubles/stub.io")
 
 IoSpec := Object clone do (
-  newSlot("report", ProgressReport clone)
+  newSlot("report", Report clone setFormatter(Progress))
   newSlot("world", World clone)
 )
 IoSpec clone := IoSpec
