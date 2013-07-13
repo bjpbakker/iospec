@@ -12,7 +12,7 @@ Number primes := method(
   factors
 )
 
-describe ("prime factors") do (
+describe ("Primes") do (
   it ("gets factors for 1") do (
     1 primes should == list()
   )
