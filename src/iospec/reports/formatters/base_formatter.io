@@ -2,7 +2,7 @@ BaseFormatter := Object clone do (
   dumpPending := method(pendingSpecs,
     write("\n\n", "Pending:\n")
     pendingSpecs foreach(pending,
-      description := Sequence with(pending context type, " ", pending spec)
+      description := Sequence with(contextAsText(pending context), " ", pending spec)
       write(yellow(Pretty indent(description, "  "), "\n"))
     )
   )
@@ -26,5 +26,11 @@ BaseFormatter := Object clone do (
       cause error,
       Sequence with(cause type, ": ", cause error, "\n",
         Pretty stack(cause coroutine callStack)))
+  )
+
+  contextAsText := method(value,
+    if (value isKindOf(Sequence),
+      value,
+      value type)
   )
 )

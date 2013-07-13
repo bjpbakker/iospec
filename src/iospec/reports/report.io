@@ -5,10 +5,8 @@ Report := Colorizer clone do (
   newSlot("failedSpecs", Map clone)
   newSlot("context")
 
-  newSlot("formatter")
-
-  pass := method(
-    formatter pass
+  pass := method(spec,
+    formatter pass(context, spec)
   )
 
   pending := method(spec,
@@ -18,12 +16,12 @@ Report := Colorizer clone do (
         newSlot("spec")
       ) setContext(context) setSpec(spec)
     )
-    formatter pending
+    formatter pending(context, spec)
   )
 
   fail := method(spec, cause,
     failedSpecs atPut(spec, cause)
-    formatter fail
+    formatter fail(context, spec)
   )
 
   startContext := method(context,
