@@ -1,43 +1,38 @@
-assert("MatcherProxy => get object with named function",
-  proxy := MatcherProxy on(5, Equal, "equal")
+assert("MatcherProxy => get proxy that supports message",
+  proxy := MatcherProxy proxy("equal")
   proxy slotNames contains("equal")
 )
 
-assert("MatcherProxy => get true if target matches expected",
-  proxy := MatcherProxy on(5, Equal, "equal")
-  proxy equal(5) == true
+assert("MatcherProxy => proxy returns result of lambda",
+  proxy := MatcherProxy proxy("exec", block("result"))
+  proxy exec == "result"
 )
 
-assert("MatcherProxy => throws if target differs expected",
-  proxy := MatcherProxy on(5, Equal, "equal")
-  ex := try ( proxy equal(10) )
-  ex isKindOf(ExpectationNotMetError)
+assert("MatcherProxy => proxy passes arguments to the lambda",
+  proxy := MatcherProxy proxy("exec", block(expected, expected))
+  proxy exec("expected") == "expected"
 )
 
-assert("MatcherProxy => exception has message",
-  proxy := MatcherProxy on(5, Equal, "equal")
-  ex := try ( proxy equal(7) )
-  ex error
-)
-
-assert("MatcherProxy => evaluates arguments in context of sender",
+assert("MatcherProxy => proxy evaluates arguments in context of sender",
   expected := "<value>"
-  proxy := MatcherProxy on("<value>", Equal, "equal")
-  proxy equal(expected)
+  proxy := MatcherProxy proxy("exec", block(expected, expected))
+  proxy exec(expected) == "<value>"
 )
 
-assert("MatcherProxy => passes list of expectations as multiple arguments given",
-  proxy := MatcherProxy on(list(1,2,3), Equal, "equal")
-  proxy equal(1,2,3)
+assert("MatcherProxy => proxy passes list as multiple arguments given",
+  proxy := MatcherProxy proxy("exec", block(expected, expected))
+  proxy exec(1,2,3) == list(1,2,3)
 )
 
-assert("MatcherProxy => passes nil as no arguments given",
-  proxy := MatcherProxy on(nil, Equal, "equal")
-  proxy equal
+assert("MatcherProxy => proxy passes nil as no arguments given",
+  proxy := MatcherProxy proxy("exec", block(expected, expected))
+  proxy exec == nil
 )
 
-assert("MatcherProxy => supports multiple matches",
-  proxy := MatcherProxy on(5, Equal, "equal")
-  proxy equal(5)
-  proxy equal(5)
+assert("MatcherProxy => supports multiple executions",
+  proxy := MatcherProxy proxy("exec", block(arg, arg))
+  results := list
+  results append(proxy exec(5))
+  results append(proxy exec(6))
+  results == list(5,6)
 )

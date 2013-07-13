@@ -1,16 +1,13 @@
 MatcherProxy := Object clone do (
   newSlot("matcher")
 
-  on := method(actual, matcher, name,
-    proxy := self clone setMatcher(matcher clone setActual(actual))
-    proxy setSlot(name, method(
-      matcher setExpected(
-        parseExpectedArgs(call message arguments, call sender)
-      )
-      matcher matchForShould or \
-          ExpectationNotMetError raise(matcher failureMessageForShould)
+  proxy := method(messageName, lambda,
+    p := self clone
+    p newSlot("lambda", lambda)
+    p setSlot(messageName, method(
+      lambda call(parseExpectedArgs(call message arguments, call sender))
     ))
-    proxy
+    p
   )
 
   parseExpectedArgs := method(arguments, context,
