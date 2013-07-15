@@ -21,7 +21,10 @@ App := Object clone do (
       argv := list(".")
     )
 
-    files := loadFiles(argv map(arg, SpecFilesArgument with(arg)))
+    options := Options with(argv)
+    IoSpec useFormatter(options formatter)
+
+    files := loadFiles(options arguments map(arg, SpecFilesArgument with(arg)))
     if (files isEmpty,
       error("No specs to run")
     )

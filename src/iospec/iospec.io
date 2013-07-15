@@ -21,14 +21,20 @@ doRelativeFile("reports/pretty.io")
 doRelativeFile("reports/null_report.io")
 doRelativeFile("reports/report.io")
 doRelativeFile("reports/formatters/base_formatter.io")
+doRelativeFile("reports/formatters/documentation.io")
 doRelativeFile("reports/formatters/progress.io")
 
 doRelativeFile("doubles/mock.io")
 doRelativeFile("doubles/stub.io")
 
+doRelativeFile("cli/options.io")
+
 IoSpec := Object clone do (
-  newSlot("report", Report clone setFormatter(Progress))
+  newSlot("report", Report clone)
   newSlot("world", World clone)
+
+  useFormatter := method(formatter,
+    report setFormatter(formatter)
+  )
 )
 IoSpec clone := IoSpec
-
