@@ -1,3 +1,17 @@
+TestStats := Object clone do (
+  inc := method(what,
+    self setSlot(what, self getSlot(what) + 1)
+  )
+
+  reset := method(
+    self setSlot("pass", 0)
+    self setSlot("pending", 0)
+    self setSlot("fail", 0)
+    self setSlot("error", 0)
+  )
+)
+TestStats clone := TestStats
+
 Test := Object clone do (
   newSlot("synopsis")
   newSlot("target")
@@ -12,26 +26,46 @@ Test := Object clone do (
       result := block(target doMessage(testMessage)) call
     )
     if (ex,
-      printer onError(synopsis, ex),
+      onError(synopsis, ex, printer),
       if (result == "*PENDING*",
-        printer onPending call(synopsis),
+        onPending(synopsis, printer),
         if (result,
-          printer onPass call(synopsis),
-          printer onFail call(synopsis, result)
+          onPass(synopsis, printer), 
+          onFail(synopsis, result, printer)
         )
       )
     )
   )
+
+  onPass := method(synopsis, printer,
+    TestStats inc("pass")
+    printer onPass(synopsis)
+  )
+
+  onPending := method(synopsis, printer,
+    TestStats inc("pending")
+    printer onPending(synopsis)
+  )
+
+  onFail := method(synopsis, result, printer,
+    TestStats inc("fail")
+    printer onFail(synopsis)
+  )
+
+  onError := method(synopsis, error, printer,
+    TestStats inc("error")
+    printer onError(synopsis, error)
+  )
 )
 
 ResultPrinter := Colorizer clone do (
-  onPass := block(synopsis,
+  onPass := method(synopsis,
     (green("[PASS] ") .. synopsis) println
   )
-  onFail := block(synopsis, result,
+  onFail := method(synopsis, result,
     (red("[FAIL] ") .. synopsis .. " (got: " .. result .. ")") println
   )
-  onPending := block(synopsis,
+  onPending := method(synopsis,
     (yellow("[PENDING] ") .. synopsis) println
   )
   onError := method(synopsis, ex,

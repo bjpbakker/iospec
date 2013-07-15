@@ -11,28 +11,34 @@ testsFor := method(module,
   dir recursiveFilesOfTypes(list("_test.io"))
 )
 
-exit := method(error,
-  error showStack
-  System exit(1)
+exitBecauseFailed := method(
+  System exit(2)
+)
+
+moduleStats := method(
+  "Passed [#{pass}] :: Failed [#{fail}] :: Error [#{error}] :: Pending [#{pending}]" \
+    interpolate(TestStats)
 )
 
 modules := list("doubles", "core", "matchers", "dsl", "cli")
 modules foreach(module,
-  write("Testing IoSpec ", module asCapitalized, "\n")
+  write("Testing IoSpec ", module asCapitalized, "\n\n")
+  TestStats reset
   error := try (
     testsFor(module) foreach(file,
       doFile(file path)
     )
   )
-  if (error,
-    exit(error))
   write("\n",
-        "tests for IoSpec module ", module asCapitalized, " were run successfully\n",
-        "\n")
+        "Results for IoSpec module ", module asCapitalized, ":\n",
+        "\n",
+        "  ", moduleStats, "\n\n\n")
+  if (TestStats error + TestStats fail > 0,
+    write("Holding execution of following modules because of test failure(s)\n\n")
+    exitBecauseFailed)
 )
 
-write("\n",
-  "Running IoSpec examples\n")
-examplesResult := System system("./bin/iospec examples/*_example.io")
+write("Running IoSpec examples\n")
+examplesResult := System system("./bin/iospec -- examples/*_example.io")
 System exit(examplesResult)
 
