@@ -13,7 +13,7 @@ Options := Object clone do (
   )
 
   setOptions := method(options,
-    checkForUnknownOptions(options)
+    validate(options)
 
     options keys foreach(opt,
       if (options hasKey(opt),
@@ -23,10 +23,13 @@ Options := Object clone do (
     self
   )
 
-  checkForUnknownOptions := method(options,
+  validate := method(options,
     unknownOptions := options keys difference(optionNames)
     if (unknownOptions size > 0,
       UnknownOptions raise(unknownOptions join(", ")))
+    unsetOptions := options keys select(k, options at(k) == nil)
+    if (unsetOptions size > 0,
+      ValueRequiredForOption raise(unsetOptions join(", ")))
     self
   )
 
@@ -55,6 +58,7 @@ OptionParser := Object clone do (
         break
       ) else (if (isOption(argv at(i))) then (
         currentOption := parseOptionName(argv at(i))
+        setOption(currentOption, nil)
       ) else (if (currentOption) then (
         setOption(currentOption, argv at(i))
         currentOption := nil
@@ -75,7 +79,7 @@ OptionParser := Object clone do (
   )
 
   parseOptionName := method(arg,
-    arg asMutable removePrefix("--")
+    name := arg asMutable removePrefix("--")
   )
 
   setOption := method(option, value,
@@ -84,3 +88,4 @@ OptionParser := Object clone do (
 )
 
 UnknownOptions := Exception clone
+ValueRequiredForOption := Exception clone

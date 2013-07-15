@@ -27,3 +27,13 @@ assert("Options => throws if unknown option is called",
   ex := try ( Options with(list("--unknown-option", "value")) )
   ex isKindOf(UnknownOptions)
 )
+
+assert("Options => throws if option has no value",
+  ex := try ( Options with(list("--formatter")) )
+  ex isKindOf(ValueRequiredForOption)
+)
+
+assert("Options => throws if unknown option has no value",
+  ex := try ( Options with(list("--unknown-option")) )
+  ex isKindOf(UnknownOptions)
+)

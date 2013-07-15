@@ -16,13 +16,14 @@ safeLoadIoSpec := method(
 safeLoadIoSpec
 
 App := Object clone do (
+  newSlot("options")
+
   run := method(argv,
     if (argv size == 0,
       argv := list(".")
     )
 
-    options := Options with(argv)
-    IoSpec useFormatter(options formatter)
+    loadOptions(argv)
 
     files := loadFiles(options arguments map(arg, SpecFilesArgument with(arg)))
     if (files isEmpty,
@@ -31,6 +32,14 @@ App := Object clone do (
     files foreach(file, Lobby doFile(file))
     result := Runner clone setWorld(IoSpec world) setReport(IoSpec report) run
     result allPassed or error
+  )
+
+  loadOptions := method(argv,
+    ex := try (
+      self options := Options with(argv)
+      IoSpec useFormatter(options formatter)
+    )
+    if (ex, error(ex type .. ": " .. ex error))
   )
 
   loadFiles := method(args,
@@ -44,4 +53,3 @@ App := Object clone do (
 )
 
 App run(System args slice(1))
-
