@@ -2,8 +2,6 @@ doRelativeFile("core/spec.io")
 doRelativeFile("core/suite.io")
 doRelativeFile("core/world.io")
 doRelativeFile("core/runner.io")
-doRelativeFile("core/file_collector.io")
-doRelativeFile("core/spec_files_argument.io")
 
 doRelativeFile("matchers/matcher_register.io")
 doRelativeFile("matchers/matcher_proxy.io")
@@ -28,6 +26,8 @@ doRelativeFile("doubles/mock.io")
 doRelativeFile("doubles/stub.io")
 
 doRelativeFile("cli/options.io")
+doRelativeFile("cli/file_collector.io")
+doRelativeFile("cli/spec_files_argument.io")
 
 IoSpec := Object clone do (
   newSlot("report", Report clone)
