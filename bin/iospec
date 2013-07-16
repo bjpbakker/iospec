@@ -19,13 +19,10 @@ App := Object clone do (
   newSlot("options")
 
   run := method(argv,
-    if (argv size == 0,
-      argv := list(".")
-    )
-
     loadOptions(argv)
 
-    files := loadFiles(options arguments map(arg, SpecFilesArgument with(arg)))
+    arguments := if(options arguments isEmpty, list("."), options arguments)
+    files := loadFiles(arguments map(arg, SpecFilesArgument with(arg)))
     if (files isEmpty,
       error("No specs to run")
     )
