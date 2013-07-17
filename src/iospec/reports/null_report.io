@@ -1,12 +1,12 @@
 NullReport := Object clone do (
-  startContext := method(nil)
-  endContext := method(nil)
+  startContext := nil
+  endContext := nil
 
-  startRun := method(nil)
-  dump := method(nil)
+  start := nil
+  finish := nil
 
-  pass := method(nil)
-  pending := method(nil)
-  fail := method(nil)
+  pass := nil
+  pending := nil
+  fail := nil
 )
 

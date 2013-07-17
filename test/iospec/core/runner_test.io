@@ -17,18 +17,18 @@ assert("Runner => fails running suites in World",
   result allPassed == false
 )
 
-assert("Runner => notifies report of starting run",
+assert("Runner => notifies report of start run",
   report := Mock clone
-  report shouldReceive("startRun")
-  report ignore("dump")
+  report shouldReceive("start")
+  report ignore("finish")
   Runner clone setWorld(World clone) setReport(report) run
   report verify
 )
 
-assert("Runner => dumps report",
+assert("Runner => notifies report of finish run",
   report := Mock clone
-  report ignore("startRun")
-  report shouldReceive("dump")
+  report ignore("start")
+  report shouldReceive("finish")
   Runner clone setWorld(World clone) setReport(report) run
   report verify
 )

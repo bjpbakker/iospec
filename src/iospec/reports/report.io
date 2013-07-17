@@ -32,9 +32,9 @@ Report := Colorizer clone do (
     setContext(nil)
   )
 
-  startRun := method(nil)
+  start := nil
 
-  dump := method(
+  finish := method(
     if (pendingSpecs size > 0, formatter dumpPending(pendingSpecs))
     if (failedSpecs size > 0, formatter dumpFailures(failedSpecs))
     writeln

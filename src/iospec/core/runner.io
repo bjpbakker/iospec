@@ -5,9 +5,9 @@ Runner := Object clone do (
   )
 
   run := method(
-    report startRun
+    report start
     specResults := world suites map(run)
-    report dump
+    report finish
     return RunResults clone setAllPassed(
       specResults flatten select(isFailed) isEmpty
     )
