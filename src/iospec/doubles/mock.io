@@ -34,8 +34,14 @@ Mock := Object clone do (
   )
 
   formatError := method(
-    "expected, but not received: " .. toReceive difference(received)
-      .. "received, but not expected: " .. received difference(toReceive)
+    "expected, but not received: " .. toReceive difference(received) .. "; " \
+      .. "received, but not expected: " .. received difference(knownMessages)
+  )
+
+  knownMessages := method(
+    result := list
+    result appendSeq(toReceive)
+    result appendSeq(ignored)
+    result
   )
 )
-
