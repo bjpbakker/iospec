@@ -27,3 +27,11 @@ assert("Mock => does not verify ignored messages",
   mock verify
 )
 
+assert("Mock => can ignore multiple messages",
+  mock := Mock clone
+  mock ignore("one", "two")
+  mock one
+  mock two
+  mock verify
+)
+

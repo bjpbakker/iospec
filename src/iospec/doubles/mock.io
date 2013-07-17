@@ -13,8 +13,11 @@ Mock := Object clone do (
     self
   )
 
-  ignore := method(function,
-    ignored append(function)
+  ignore := method(function, function2,
+    call message arguments foreach(arg,
+      function := call sender doMessage(arg)
+      ignored append(function)
+    )
     self
   )
 
