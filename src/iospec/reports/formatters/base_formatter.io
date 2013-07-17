@@ -3,7 +3,7 @@ BaseFormatter := Object clone do (
     write("\n\n", "Pending:\n")
     pendingSpecs foreach(pending,
       description := Sequence with(contextAsText(pending context), " ", pending spec)
-      write(yellow(Pretty indent(description, "  "), "\n"))
+      write(yellow(Pretty indentLines(description, "  ")), "\n")
     )
   )
 
@@ -15,7 +15,7 @@ BaseFormatter := Object clone do (
       number = number + 1
       failure := "  " .. number .. ") " .. spec .. "\n"
       write(failure,
-        red(Pretty indent(formatCause(cause), "     ")),
+        red(Pretty indentLines(formatCause(cause), "     ")),
         "\n\n"
       )
     )
@@ -25,12 +25,16 @@ BaseFormatter := Object clone do (
     if (cause isKindOf(ExpectationNotMetError),
       cause error,
       Sequence with(cause type, ": ", cause error, "\n",
-        Pretty stack(cause coroutine callStack)))
+        formatStackTrace(cause coroutine callStack)))
   )
 
   contextAsText := method(value,
     if (value isKindOf(Sequence),
       value,
       value type)
+  )
+
+  formatStackTrace := method(callStack, prefix,
+    callStack map(description) map(asMutable) map(appendSeq("\n")) reduce(with)
   )
 )

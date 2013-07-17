@@ -1,3 +1,5 @@
+doRelativeFile("support/pretty.io")
+
 doRelativeFile("core/spec.io")
 doRelativeFile("core/suite.io")
 doRelativeFile("core/world.io")
@@ -15,7 +17,6 @@ doRelativeFile("dsl/dsl.io")
 doRelativeFile("dsl/should.io")
 
 doRelativeFile("reports/colorizer.io")
-doRelativeFile("reports/pretty.io")
 doRelativeFile("reports/null_report.io")
 doRelativeFile("reports/report.io")
 doRelativeFile("reports/formatters/base_formatter.io")

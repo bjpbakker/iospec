@@ -36,7 +36,7 @@ App := Object clone do (
       self options := Options with(argv)
       IoSpec useFormatter(options formatter)
     )
-    if (ex, error(ex type .. ": " .. ex error))
+    if (ex, error(Pretty words(ex type) .. ": " .. ex error))
   )
 
   loadFiles := method(args,
