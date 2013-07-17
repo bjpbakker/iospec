@@ -24,61 +24,16 @@ assert("Suite => passes subject to spec run",
 assert("Suite => clone of subject per spec",
   tracker := list
   Suite clone setSubject(tracker) append(
-    Spec clone setName("add data to clone of list") setExampleBlock(block(
-      subject append("ignored")
-    ))
+    Spec with("add data to clone of list", block(subject append("ignored")))
   ) run
   tracker == list()
 )
 
-assert("Suite => reports passed spec", 
-  report := RecordingReport clone
-  Suite clone setSubject("suite") setReport(report) append(
-    Spec clone setName("passed spec") setExampleBlock(block( nil ))
-  ) run
-  report passedSpecs == list("passed spec")
+assert("Suite => calls block with result of running spec",
+  spec := Spec with("passing", block(nil))
+  yieldToBlockState := Object clone
+  Suite clone setSubject(tracker) append(spec) run(block(name, result,
+    yieldToBlockState value := (name != nil and result != nil)
+  ))
+  yieldToBlockState value
 )
-
-assert("Suite => reports failed spec",
-  report := RecordingReport clone
-  Suite clone setSubject("reporting") setReport(report) append(
-    Spec clone setName("failed spec") setExampleBlock(block(
-      Exception raise("spec that fails for asserting a failure")
-    ))
-  ) run
-  report failedSpecs keys == list("failed spec")
-)
-
-assert("Suite => reports cause with failed spec",
-  report := RecordingReport clone
-  Suite clone setSubject("reporting") setReport(report) append(
-    Spec clone setName("failed spec") setExampleBlock(block(
-      Exception raise("failure cause")
-    ))
-  ) run
-  reportedException := report failedSpecs values at(0)
-  reportedException error == "failure cause"
-)
-
-assert("Suite => reports pending spec",
-  report := RecordingReport clone
-  Suite clone setSubject("reporting") setReport(report) append(
-    Spec clone setName("pending spec") setExampleBlock(block(
-      pending
-    ))
-  ) run
-  report pendingSpecs == list("pending spec")
-)
-
-assert("Suite => reports start of context",
-  report ::= RecordingReport clone
-  Suite clone setSubject("reporting") setReport(report) append(DummySpec clone) run
-  report startedContexts == list("reporting")
-)
-
-assert("Suite => reports end of context",
-  report ::= RecordingReport clone
-  Suite clone setSubject("reporting") setReport(report) append(DummySpec clone) run
-  report endedContexts == list("reporting")
-)
-

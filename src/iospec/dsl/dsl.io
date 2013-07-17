@@ -6,7 +6,7 @@ DSL := Object clone do (
   suite := nil
 
   describe := method(subject,
-    self suite := Suite clone setSubject(subject) setReport(IoSpec report)
+    self suite := Suite clone setSubject(subject)
     IoSpec world register(self suite)
     self
   )
