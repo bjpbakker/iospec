@@ -26,7 +26,7 @@ DSL := Object clone do (
 
     do := method(
       msg := call message argAt(0)
-      suite append(Spec clone setName(specName) setExampleBlock(block() setMessage(msg)))
+      suite append(Spec with(specName, block() setMessage(msg)))
     )
   )
 )
