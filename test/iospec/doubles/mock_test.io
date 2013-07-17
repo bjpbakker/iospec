@@ -11,7 +11,7 @@ assert("Mock => throws if expectations are not met",
   e := try (
     mock verify
   )
-  e isKindOf(ExpectedMessageNotReceived)
+  e isKindOf(ExpectedMessageNotReceived) or e pass
 )
 
 assert("Mock => throws if unknown message received",
