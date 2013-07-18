@@ -42,10 +42,10 @@ Report := Colorizer clone do (
 
   start := method( self )
 
-  finish := method(
+  finish := method(stats,
     if (pendingSpecs size > 0, formatter dumpPending(pendingSpecs))
     if (failedSpecs size > 0, formatter dumpFailures(failedSpecs))
-    writeln
+    formatter finish(stats)
     self
   )
 )

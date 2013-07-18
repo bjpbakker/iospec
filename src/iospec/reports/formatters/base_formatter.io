@@ -2,6 +2,10 @@ BaseFormatter := Object clone do (
   startContext := nil
   endContext := nil
 
+  finish := method(stats,
+    writeln
+  )
+
   dumpPending := method(pendingSpecs,
     write("\n\n", "Pending:\n")
     pendingSpecs foreach(pending,

@@ -34,7 +34,7 @@ assert("Report#pending => delegates to formatter",
 )
 
 assert("Report#finish => dumps pending specs with formatter",
-  formatter := Mock clone ignore("pending") shouldReceive("dumpPending")
+  formatter := Mock clone ignore("pending", "finish") shouldReceive("dumpPending")
   report := Report clone setFormatter(formatter)
   report pending("spec")
   report finish
@@ -42,9 +42,16 @@ assert("Report#finish => dumps pending specs with formatter",
 )
 
 assert("Report#finish => dumps failing specs with formatter",
-  formatter := Mock clone ignore("fail") shouldReceive("dumpFailures")
+  formatter := Mock clone ignore("fail", "finish") shouldReceive("dumpFailures")
   report := Report clone setFormatter(formatter)
   report fail("spec")
+  report finish
+  formatter verify
+)
+
+assert("Report#finish => delegates to formatter",
+  formatter := Mock clone shouldReceive("finish")
+  report := Report clone setFormatter(formatter)
   report finish
   formatter verify
 )
