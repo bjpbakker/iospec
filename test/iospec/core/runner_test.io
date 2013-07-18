@@ -1,19 +1,19 @@
-passedSpec := Stub clone stub("isPassed", true) stub("isFailed", false) stub("isPending", false)
-failedSpec := Stub clone stub("isPassed", false) stub("isFailed", true) stub("isPending", false)
+ignoreReport := Mock clone ignore("start", "finish", "startContext", "endContext", "pass", "fail", "pending")
+passingSpec := Spec with("passing", block(nil))
+failingSpec := Spec with("failing", block(Exception raise))
 
 assert("Runner => passes running suites in World",
   world := World clone
-  suite := Stub clone stub("run", list(passedSpec))
+  suite := Suite clone append(passingSpec)
   world register(suite)
-  result := Runner clone setWorld(world) setReport(NullReport) run
+  result := Runner clone setWorld(world) setReport(ignoreReport) run
   result allPassed == true
 )
 
 assert("Runner => fails running suites in World",
-  world := World clone
-  suite := Stub clone stub("run", list(failedSpec))
-  world register(suite)
-  result := Runner clone setWorld(world) setReport(NullReport) run
+  suite := Suite clone append(failingSpec)
+  world := World clone register(suite)
+  result := Runner clone setWorld(world) setReport(ignoreReport) run
   result allPassed == false
 )
 
@@ -26,9 +26,9 @@ assert("Runner => notifies report of start run",
 )
 
 assert("Runner => notifies report of a starting a context",
-  report := Mock clone ignore("start", "finish", "endContext")
+  report := Mock clone ignore("start", "finish", "endContext", "pass")
   report shouldReceive("startContext")
-  suite := Stub clone stub("run", list(passedSpec))
+  suite := Suite clone append(passingSpec)
   Runner clone setWorld(World clone register(suite)) setReport(report) run
   report verify
 )
@@ -58,9 +58,9 @@ assert("Runner => notifies report of pending spec",
 )
 
 assert("Runner => notifies report of finished context",
-  report := Mock clone ignore("start", "finish", "startContext")
+  report := Mock clone ignore("start", "finish", "startContext", "pass")
   report shouldReceive("endContext")
-  suite := Stub clone stub("run", list(passedSpec))
+  suite := Suite clone append(passingSpec)
   Runner clone setWorld(World clone register(suite)) setReport(report) run
   report verify
 )
@@ -73,3 +73,23 @@ assert("Runner => notifies report of finish run",
   report verify
 )
 
+assert("Runner => collects passed stats",
+  suite := Suite clone append(Spec with("passing", block(nil)))
+  runner := Runner clone setWorld(World clone register(suite)) setReport(ignoreReport)
+  runner run
+  runner stats passed == 1
+)
+
+assert("Runner => collects failed stats",
+  suite := Suite clone append(Spec with("failing", block(Exception raise)))
+  runner := Runner clone setWorld(World clone register(suite)) setReport(ignoreReport)
+  runner run
+  runner stats failed == 1
+)
+
+assert("Runner => collects pending stats",
+  suite := Suite clone append(Spec with("pending", block(pending)))
+  runner := Runner clone setWorld(World clone register(suite)) setReport(ignoreReport)
+  runner run
+  runner stats pending == 1
+)
