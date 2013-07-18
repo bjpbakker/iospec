@@ -1,9 +1,11 @@
 Report := Colorizer clone do (
   newSlot("formatter")
 
-  newSlot("pendingSpecs", list)
-  newSlot("failedSpecs", Map clone)
-  newSlot("context")
+  init := method(
+    newSlot("pendingSpecs", list)
+    newSlot("failedSpecs", Map clone)
+    newSlot("context")
+  )
 
   pass := method(spec,
     formatter pass(context, spec)
@@ -17,27 +19,34 @@ Report := Colorizer clone do (
       ) setContext(context) setSpec(spec)
     )
     formatter pending(context, spec)
+    self
   )
 
   fail := method(spec, cause,
     failedSpecs atPut(spec, cause)
     formatter fail(context, spec)
+    self
   )
 
   startContext := method(context,
     setContext(context)
+    formatter startContext(context)
+    self
   )
 
   endContext := method(
     setContext(nil)
+    formatter endContext
+    self
   )
 
-  start := nil
+  start := method( self )
 
   finish := method(
     if (pendingSpecs size > 0, formatter dumpPending(pendingSpecs))
     if (failedSpecs size > 0, formatter dumpFailures(failedSpecs))
     writeln
+    self
   )
 )
 

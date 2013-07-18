@@ -20,7 +20,7 @@ moduleStats := method(
     interpolate(TestStats)
 )
 
-modules := list("support", "doubles", "core", "matchers", "dsl", "cli")
+modules := list("support", "doubles", "core", "matchers", "reports", "dsl", "cli")
 modules foreach(module,
   write("Testing IoSpec ", module asCapitalized, "\n\n")
   TestStats reset
