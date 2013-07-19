@@ -1,6 +1,6 @@
 assert("DSL::describe => registers suite in IoSpec world",
   world := Mock clone
-  world shouldReceive("register")
+  world shouldReceive(register)
   IoSpec setWorld(world)
   describe("subject")
   world verify

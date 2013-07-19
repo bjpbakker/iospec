@@ -1,4 +1,4 @@
-ignoreReport := Mock clone ignore("start", "finish", "startContext", "endContext", "pass", "fail", "pending")
+ignoreReport := Mock clone ignore(start, finish, startContext, endContext, pass, fail, pending)
 passingSpec := Spec with("passing", block(nil))
 failingSpec := Spec with("failing", block(Exception raise))
 
@@ -19,47 +19,47 @@ assert("Runner => fails running suites in World",
 
 assert("Runner => notifies report of start run",
   report := Mock clone
-  report shouldReceive("start")
-  report ignore("finish")
+  report shouldReceive(start)
+  report ignore(finish)
   Runner clone setWorld(World clone) setReport(report) run
   report verify
 )
 
 assert("Runner => notifies report of a starting a context",
-  report := Mock clone ignore("start", "finish", "endContext", "pass")
-  report shouldReceive("startContext")
+  report := Mock clone ignore(start, finish, endContext, pass)
+  report shouldReceive(startContext)
   suite := Suite clone append(passingSpec)
   Runner clone setWorld(World clone register(suite)) setReport(report) run
   report verify
 )
 
 assert("Runner => notifies report of passed spec",
-  report := Mock clone ignore("start", "finish", "startContext", "endContext")
-  report shouldReceive("pass")
+  report := Mock clone ignore(start, finish, startContext, endContext)
+  report shouldReceive(pass)
   suite := Suite clone append(Spec with("name", block(nil)))
   Runner clone setWorld(World clone register(suite)) setReport(report) run
   report verify
 )
 
 assert("Runner => notifies report of failed spec",
-  report := Mock clone ignore("start", "finish", "startContext", "endContext")
-  report shouldReceive("fail")
+  report := Mock clone ignore(start, finish, startContext, endContext)
+  report shouldReceive(fail)
   suite := Suite clone append(Spec with("name", block(Exception clone raise)))
   Runner clone setWorld(World clone register(suite)) setReport(report) run
   report verify
 )
 
 assert("Runner => notifies report of pending spec",
-  report := Mock clone ignore("start", "finish", "startContext", "endContext")
-  report shouldReceive("pending")
+  report := Mock clone ignore(start, finish, startContext, endContext)
+  report shouldReceive(pending)
   suite := Suite clone append(Spec with("name", block(pending)))
   Runner clone setWorld(World clone register(suite)) setReport(report) run
   report verify
 )
 
 assert("Runner => notifies report of finished context",
-  report := Mock clone ignore("start", "finish", "startContext", "pass")
-  report shouldReceive("endContext")
+  report := Mock clone ignore(start, finish, startContext, pass)
+  report shouldReceive(endContext)
   suite := Suite clone append(passingSpec)
   Runner clone setWorld(World clone register(suite)) setReport(report) run
   report verify
@@ -67,8 +67,8 @@ assert("Runner => notifies report of finished context",
 
 assert("Runner => notifies report of finish run",
   report := Mock clone
-  report ignore("start")
-  report shouldReceive("finish")
+  report ignore(start)
+  report shouldReceive(finish)
   Runner clone setWorld(World clone) setReport(report) run
   report verify
 )
