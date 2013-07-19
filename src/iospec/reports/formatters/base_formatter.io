@@ -3,7 +3,8 @@ BaseFormatter := Object clone do (
   endContext := nil
 
   finish := method(stats,
-    writeln
+    write("\n\n")
+    write("#{total} examples, #{failed} failures\n\n" interpolate(stats))
   )
 
   dumpPending := method(pendingSpecs,

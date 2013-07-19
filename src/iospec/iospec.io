@@ -3,6 +3,7 @@ doRelativeFile("support/pretty.io")
 doRelativeFile("core/spec.io")
 doRelativeFile("core/suite.io")
 doRelativeFile("core/world.io")
+doRelativeFile("core/stats.io")
 doRelativeFile("core/runner.io")
 
 doRelativeFile("matchers/matcher_register.io")

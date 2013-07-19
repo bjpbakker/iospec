@@ -2,7 +2,7 @@ Runner := Object clone do (
   init := method(
     newSlot("world")
     newSlot("report")
-    newSlot("stats", RunnerStats clone)
+    newSlot("stats", Stats clone)
   )
 
   run := method(
@@ -56,24 +56,4 @@ SuiteExecutor := Object clone do (
   )
 
   call := getSlot("onSpecExecuted")
-)
-
-RunnerStats := Object clone do (
-  newSlot("passed", 0)
-  newSlot("failed", 0)
-  newSlot("pending", 0)
-
-  inc := method(
-    what := call argAt(0) name
-    current := self getSlot(what)
-    self setSlot(what, current + 1)
-  )
-
-  total := method(
-    passed + failed + total
-  )
-
-  allPassed := method(
-    failed == 0
-  )
 )
