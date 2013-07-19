@@ -8,14 +8,15 @@ Mock := Object clone do (
     newSlot("ignored", list)
   )
 
-  shouldReceive := method(function,
+  shouldReceive := method(
+    function := getMessageName(call argAt(0), call sender)
     toReceive append(function)
     self
   )
 
-  ignore := method(function, function2,
+  ignore := method(
     call message arguments foreach(arg,
-      function := call sender doMessage(arg)
+      function := getMessageName(arg, call sender)
       ignored append(function)
     )
     self
@@ -43,5 +44,11 @@ Mock := Object clone do (
     result appendSeq(toReceive)
     result appendSeq(ignored)
     result
+  )
+
+  getMessageName := method(message, sender,
+    if (message name beginsWithSeq("\""),
+      sender doMessage(message),
+      message name)
   )
 )
