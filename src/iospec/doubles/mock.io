@@ -1,5 +1,4 @@
-UnexpectedMessage := Exception clone
-ExpectedMessageNotReceived := Exception clone
+ExpectationsNotMet := Exception clone
 
 Mock := Object clone do (
   init := method(
@@ -24,19 +23,27 @@ Mock := Object clone do (
 
   forward := method(
     name := call message name
-    if (toReceive contains(name) or ignored contains(name),
-      received append(name),
-      UnexpectedMessage raise(name))
+    received append(name)
   )
 
   verify := method(
-    received containsAll(toReceive) or
-      ExpectedMessageNotReceived raise(formatError)
+    if (notReceived size > 0 or notExpected size > 0) then ( 
+      ExpectationsNotMet raise(formatError)
+    )
+    true
   )
 
   formatError := method(
-    "expected, but not received: " .. toReceive difference(received) .. "; " \
-      .. "received, but not expected: " .. received difference(knownMessages)
+    "expected, but not received [" .. notReceived join(", ") .. "]; " \
+      .. "received, but not expected [" .. notExpected join(", ") .. "]"
+  )
+
+  notReceived := method(
+    toReceive difference(received)
+  )
+
+  notExpected := method(
+    received difference(knownMessages)
   )
 
   knownMessages := method(
