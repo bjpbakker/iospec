@@ -12,6 +12,12 @@ assert("Stub => returns second stub result for second function call",
   double f == "b"
 )
 
+assert("Stub => returns last return value for any remaining calls",
+  double := Stub clone stub("f", "value")
+  double f
+  double f == "value"
+)
+
 assert("Stub => throws if function is not stubbed",
   double := Stub clone
   e := try (double f)

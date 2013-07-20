@@ -26,7 +26,7 @@ Stub := Object clone do (
     name := call message name
     stub := selectStub(name)
     if (stub,
-      stub answers removeFirst,
+      nextAnswer(stub),
       UnknownMessageError raise(name))
   )
 
@@ -36,5 +36,14 @@ Stub := Object clone do (
     )
     stubs first
   )
-)
 
+  nextAnswer := method(stub,
+    if (stub answers size > 1,
+      popAnswer(stub),
+      stub answers at(0))
+  )
+
+  popAnswer := method(stub,
+    stub answers removeFirst
+  )
+)
