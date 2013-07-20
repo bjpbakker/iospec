@@ -24,16 +24,21 @@ modules := list("support", "doubles", "core", "matchers", "reports", "dsl", "cli
 modules foreach(module,
   write("Testing IoSpec ", module asCapitalized, "\n\n")
   TestStats reset
-  error := try (
-    testsFor(module) foreach(file,
+  suiteErrors := list
+  testsFor(module) foreach(file,
+    error := try (
       doFile(file path)
     )
+    if (error, suiteErrors append(file))
   )
+  suiteErrors foreach(suite,
+      write(Colorizer red("Failed to load suite in " .. suite path .. "\n"))
+    )
   write("\n",
         "Results for IoSpec module ", module asCapitalized, ":\n",
         "\n",
         "  ", moduleStats, "\n\n\n")
-  if (TestStats error + TestStats fail > 0,
+  if (TestStats error + TestStats fail + suiteErrors size > 0,
     write("Holding execution of following modules because of test failure(s)\n\n")
     exitBecauseFailed)
 )
