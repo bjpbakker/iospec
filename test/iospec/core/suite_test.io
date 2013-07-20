@@ -1,4 +1,4 @@
-DummySpec := Spec with("dummy"m block(nil))
+DummySpec := Spec with("dummy", block(nil))
 
 Tracker := Object clone do (
   count ::= 0
@@ -9,7 +9,7 @@ assert("Suite => runs a spec",
   tracker := Tracker clone
   Suite clone setSubject("suite") append(
     Spec with("run this spec", block(tracker inc))
-  ) run
+  ) run(block)
   tracker count == 1
 )
 
@@ -17,7 +17,7 @@ assert("Suite => passes subject to spec run",
   subjectTracker := Object clone do ( newSlot("subject") )
   Suite clone setSubject("pass subject") append(
     Spec with("track subject", block(subjectTracker setSubject(subject)))
-  ) run
+  ) run(block)
   subjectTracker subject == "pass subject"
 )
 
@@ -25,7 +25,7 @@ assert("Suite => clone of subject per spec",
   tracker := list
   Suite clone setSubject(tracker) append(
     Spec with("add data to clone of list", block(subject append("ignored")))
-  ) run
+  ) run(block)
   tracker == list()
 )
 
