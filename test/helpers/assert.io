@@ -14,16 +14,15 @@ TestStats clone := TestStats
 
 Test := Object clone do (
   newSlot("synopsis")
-  newSlot("target")
-  newSlot("testMessage")
+  newSlot("testBlock")
 
-  create := method(synopsis, target, testMessage,
-    Test clone setSynopsis(synopsis) setTarget(target) setTestMessage(testMessage)
+  create := method(synopsis, testBlock,
+    Test clone setSynopsis(synopsis) setTestBlock(testBlock)
   )
 
   run := method(printer,
     ex := try (
-      result := block(target doMessage(testMessage)) call
+      result := testBlock call
     )
     if (ex,
       onError(synopsis, ex, printer),
@@ -74,6 +73,7 @@ ResultPrinter := Colorizer clone do (
 )
 
 assert := method(synopsis,
-  test := Test create(synopsis, call target, call message argAt(1))
+  msg := call message argAt(1)
+  test := Test create(synopsis, Block clone setMessage(msg) setScope(self))
   test run(ResultPrinter)
 )
