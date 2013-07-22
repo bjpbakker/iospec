@@ -17,7 +17,7 @@ Spec := Object clone do (
       newSlot("subject")
       pending := method(Pending raise)
     ) setSubject(subject)
-    ctx doMessage(blk message)
+    blk clone setScope(ctx) call
   )
 
   resultFromPossibleEvaluationError := method(error,
