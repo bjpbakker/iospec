@@ -1,47 +1,81 @@
 #!/usr/bin/env io
 
-doRelativeFile("test/iospec/test_helper.io")
+doRelativeFile("src/iospec/iospec.io")
+doRelativeFile("test/helpers/assert.io")
+doRelativeFile("test/iospec/helpers/reports.io")
+doRelativeFile("test/iospec/helpers/file.io")
+
+IoSpecTestRunner := Object clone do (
+  modules := list("support", "doubles", "core", "matchers", "reports", "dsl", "cli")
+
+  run := method(
+    modules foreach(module,
+      TestStats reset
+      write("Testing IoSpec ", module asCapitalized, "\n\n")
+      passed := IoSpecModule clone setName(module) run
+      printResults(module)
+      if (passed == false,
+        write("Holding execution of following modules because of test failure(s)\n\n")
+        System exit(2))
+    )
+  )
+
+  printSuiteError := method(suite, ex,
+    write(Colorizer red(
+      "Failed to load suite in " .. suite .. " (" .. ex type .. ex error .. ")\n"
+    ))
+  )
+
+  printResults := method(module,
+    write("\n",
+          "Results for IoSpec module ", module asCapitalized, ":\n",
+          "\n",
+          "  ", moduleStats, "\n\n\n")
+  )
+
+  moduleStats := method(
+    "Passed [#{pass}] :: Failed [#{fail}] :: Error [#{error}] :: Pending [#{pending}]" \
+      interpolate(TestStats)
+  )
+)
 
 TestModuleNotFound := Exception clone
 
-testsFor := method(module,
-  dir := Directory with("./test/iospec") at(module)
-  if (dir not,
-    TestModuleNotFound raise(module))
-  dir recursiveFilesOfTypes(list("_test.io"))
-)
-
-exitBecauseFailed := method(
-  System exit(2)
-)
-
-moduleStats := method(
-  "Passed [#{pass}] :: Failed [#{fail}] :: Error [#{error}] :: Pending [#{pending}]" \
-    interpolate(TestStats)
-)
-
-modules := list("support", "doubles", "core", "matchers", "reports", "dsl", "cli")
-modules foreach(module,
-  write("Testing IoSpec ", module asCapitalized, "\n\n")
-  TestStats reset
-  suiteErrors := list
-  testsFor(module) foreach(file,
-    error := try (
-      doFile(file path)
-    )
-    if (error, suiteErrors append(file))
+IoSpecModule := Object clone do (
+  init := method(
+    newSlot("name")
   )
-  suiteErrors foreach(suite,
-      write(Colorizer red("Failed to load suite in " .. suite path .. "\n"))
+
+  run := method(
+    errors := runSuites()
+    errors foreach(suite, ex,
+      write(Colorizer red("Failed to load suite in " .. suite .. " (" .. ex type .. " " .. ex error .. ")\n"))
     )
-  write("\n",
-        "Results for IoSpec module ", module asCapitalized, ":\n",
-        "\n",
-        "  ", moduleStats, "\n\n\n")
-  if (TestStats error + TestStats fail + suiteErrors size > 0,
-    write("Holding execution of following modules because of test failure(s)\n\n")
-    exitBecauseFailed)
+    TestStats error + TestStats fail + errors size == 0
+  )
+
+  runSuites := method(
+    errors := Map clone
+    tests foreach(file,
+      error := try (
+        IoSpecTestSuite clone doFile(file path)
+      )
+      if (error, errors atPut(file path, error))
+    )
+    errors
+  )
+
+  tests := method(
+    dir := Directory with("./test/iospec") at(name)
+    if (dir not,
+      TestModuleNotFound raise(name))
+    dir recursiveFilesOfTypes(list("_test.io"))
+  )
 )
+
+IoSpecTestSuite := Object clone
+
+IoSpecTestRunner run
 
 write("Running IoSpec examples\n")
 examplesResult := System system("./bin/iospec -- examples/*_example.io")
