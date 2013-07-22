@@ -16,9 +16,8 @@ assertFailed := method(result,
   result isFailed
 )
 
-ExpectedExceptionForFailure := Exception clone
 passingBlock := block(true)
-failingBlock := block(ExpectedExceptionForFailure raise)
+failingBlock := block(Exception raise)
 pendingBlock := block(pending)
 
 assert("Spec => has a name",
@@ -42,9 +41,10 @@ assert("Spec => can fail",
 )
 
 assert("Spec => failure result includes cause",
-  result := Spec with("failing spec", failingBlock) run("subject")
+  spec := Spec with("failing spec", block(Exception raise("expected for failure")))
+  result := spec run("subject")
   cause := result cause
-  cause isKindOf(ExpectedExceptionForFailure)
+  cause error == "expected for failure" or cause pass
 )
 
 assert("Spec => has accesss to subject",

@@ -1,27 +1,19 @@
 DummySpec := Spec with("dummy", block(nil))
 
-Tracker := Object clone do (
-  count ::= 0
-  inc ::= method(self count := self count + 1)
+raiseOnFailCallback := block(name, result,
+  if (result isFailed) then (
+    result cause pass
+  )
 )
 
 assert("Suite => runs a spec",
-  tracker := Tracker clone
-  Suite clone setSubject("suite") append(
-    Spec with("run this spec", block(tracker inc))
-  ) run(block)
-  tracker count == 1
+  spec := Mock clone shouldReceive("run")
+  suite := Suite clone setSubject("suite") append(spec)
+  suite run(block)
+  spec verify
 )
 
-assert("Suite => passes subject to spec run",
-  subjectTracker := Object clone do ( newSlot("subject") )
-  Suite clone setSubject("pass subject") append(
-    Spec with("track subject", block(subjectTracker setSubject(subject)))
-  ) run(block)
-  subjectTracker subject == "pass subject"
-)
-
-assert("Suite => clone of subject per spec",
+assert("Suite => passes clone of subject to spec",
   tracker := list
   Suite clone setSubject(tracker) append(
     Spec with("add data to clone of list", block(subject append("ignored")))
@@ -31,9 +23,12 @@ assert("Suite => clone of subject per spec",
 
 assert("Suite => calls block with result of running spec",
   spec := Spec with("passing", block(nil))
-  yieldToBlockState := Object clone
-  Suite clone setSubject(tracker) append(spec) run(block(name, result,
-    yieldToBlockState value := (name != nil and result != nil)
-  ))
-  yieldToBlockState value
+  callback := Object clone do (
+    call := method(name, result,
+      self name := name
+      self result := result
+    )
+  )
+  Suite clone setSubject("yield to block") append(spec) run(callback)
+  callback name != nil and callback result != nil
 )
