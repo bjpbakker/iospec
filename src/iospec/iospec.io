@@ -1,3 +1,4 @@
+doRelativeFile("support/module.io")
 doRelativeFile("support/pretty.io")
 
 doRelativeFile("core/spec.io")
