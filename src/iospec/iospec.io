@@ -1,4 +1,6 @@
 doRelativeFile("support/module.io")
+
+doRelativeFile("support/colorizer.io")
 doRelativeFile("support/pretty.io")
 
 doRelativeFile("core/spec.io")
@@ -18,8 +20,6 @@ doRelativeFile("matchers/builtin/operator.io")
 doRelativeFile("dsl/dsl.io")
 doRelativeFile("dsl/should.io")
 
-doRelativeFile("reports/colorizer.io")
-doRelativeFile("reports/null_report.io")
 doRelativeFile("reports/report.io")
 doRelativeFile("reports/formatters/base_formatter.io")
 doRelativeFile("reports/formatters/documentation.io")
@@ -32,12 +32,11 @@ doRelativeFile("cli/options.io")
 doRelativeFile("cli/file_collector.io")
 doRelativeFile("cli/spec_files_argument.io")
 
-IoSpec := Object clone do (
-  newSlot("report", Report clone)
-  newSlot("world", World clone)
+module(iospec) do (
+  report := iospec reports Report clone
+  world := iospec core World clone
 
   useFormatter := method(formatter,
     report setFormatter(formatter)
   )
 )
-IoSpec clone := IoSpec

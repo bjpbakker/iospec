@@ -1,32 +1,40 @@
 Object describe := method(subject,
-  DSL clone describe(subject)
+  iospec dsl describe(subject)
 )
 
-DSL := Object clone do (
-  suite := nil
+module(iospec) do (
+  module(dsl) do (
+    describe := method(subject,
+      DSL clone describe(subject)
+    )
 
-  describe := method(subject,
-    self suite := Suite clone setSubject(subject)
-    IoSpec world register(self suite)
-    self
-  )
+    DSL := Object clone do (
+      suite := nil
 
-  do := method(
-    call resend
-    self suite
-  )
+      describe := method(subject,
+        self suite := iospec core Suite clone setSubject(subject)
+        iospec world register(self suite)
+        self
+      )
 
-  it := method(name,
-    SpecDescriber clone setSuite(self suite) setSpecName(name)
-  )
+      do := method(
+        call resend
+        self suite
+      )
 
-  SpecDescriber := Object clone do (
-    newSlot("suite")
-    newSlot("specName")
+      it := method(name,
+        SpecDescriber clone setSuite(self suite) setSpecName(name)
+      )
 
-    do := method(
-      msg := call message argAt(0)
-      suite append(Spec with(specName, block() setMessage(msg)))
+      SpecDescriber := Object clone do (
+        newSlot("suite")
+        newSlot("specName")
+
+        do := method(
+          msg := call message argAt(0)
+          suite append(iospec core Spec with(specName, block() setMessage(msg)))
+        )
+      )
     )
   )
 )

@@ -57,7 +57,7 @@ Test := Object clone do (
   )
 )
 
-ResultPrinter := Colorizer clone do (
+ResultPrinter := iospec support Colorizer clone do (
   onPass := method(synopsis,
     (green("[PASS] ") .. synopsis) println
   )

@@ -22,25 +22,25 @@ App := Object clone do (
     loadOptions(argv)
 
     arguments := if(options arguments isEmpty, list("."), options arguments)
-    files := loadFiles(arguments map(arg, SpecFilesArgument with(arg)))
+    files := loadFiles(arguments map(arg, iospec cli SpecFilesArgument with(arg)))
     if (files isEmpty,
       error("No specs to run")
     )
     files foreach(file, Lobby doFile(file))
-    result := Runner clone setWorld(IoSpec world) setReport(IoSpec report) run
+    result := iospec core Runner clone setWorld(iospec world) setReport(iospec report) run
     result allPassed or error
   )
 
   loadOptions := method(argv,
     ex := try (
-      self options := Options with(argv)
-      IoSpec useFormatter(options formatter)
+      self options := iospec cli Options with(argv)
+      iospec useFormatter(options formatter)
     )
-    if (ex, error(Pretty words(ex type) .. ": " .. ex error))
+    if (ex, error(iospec support Pretty words(ex type) .. ": " .. ex error))
   )
 
   loadFiles := method(args,
-    args map(arg, FileCollector clone setDirectory(arg root) collect(arg fnpattern)) flatten
+    args map(arg, iospec cli FileCollector clone setDirectory(arg root) collect(arg fnpattern)) flatten
   )
 
   error := method(msg,
