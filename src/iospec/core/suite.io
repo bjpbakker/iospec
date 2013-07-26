@@ -13,13 +13,10 @@ module(iospec) do (
       )
 
       run := method(callback,
-        results := list
         specs foreach(spec,
           result := spec run(subject clone)
           callback call(spec name, result)
-          results append(result)
         )
-        results
       )
     )
   )
