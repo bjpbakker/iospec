@@ -42,3 +42,17 @@ from your `spec` directory, run:
 
     $ iospec spec/calculator_spec.io spec/greeting_spec.io
 
+Output Formatting
+-----------------
+
+By default IoSpec outputs test results in progress format. Using a different formatter can be 
+specified on the command-line using the `--formatter` option.
+
+For example, to output your tests as documentation, run:
+
+    $ iospec --formatter documentation
+
+The supported formatters are: progress, documentation.
+
+Of course it's possible to add a custom formatter. All formatters should be available in the 
+`iospec matchers formatters` module. You can start your formatter by cloning `BaseFormatter`.
