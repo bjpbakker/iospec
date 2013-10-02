@@ -23,16 +23,21 @@ module(iospec) do (
       )
 
       it := method(name,
-        SpecDescriber clone setSuite(self suite) setSpecName(name)
+        SpecBuilder describe(name, self suite)
       )
 
-      SpecDescriber := Object clone do (
-        newSlot("suite")
-        newSlot("specName")
+      SpecBuilder := Object clone do (
+        newSlot("spec")
+
+        describe := method(name, suite,
+          spec := iospec core Spec with(name, block(pending))
+          suite append(spec)
+          self clone setSpec(spec)
+        )
 
         do := method(
           msg := call message argAt(0)
-          suite append(iospec core Spec with(specName, block() setMessage(msg)))
+          spec setExampleBlock(block() setMessage(msg))
         )
       )
     )

@@ -19,5 +19,13 @@ module(iospec) do (
       )
       suite specs size == 1
     )
+
+    assert("DSL::it => is pending as no do-block given",
+      suite := describe("it") do (
+        it ("is pending as no block is given")
+      )
+      suite specs size == 1
+      suite specs at(0) run isPending
+    )
   )
 )
